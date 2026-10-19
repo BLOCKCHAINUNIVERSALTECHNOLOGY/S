@@ -42,6 +42,15 @@ import os
 import json
 from pathlib import Path
 
+# Keep CLI output portable on Windows terminals that default to legacy code pages.
+for _stream in (sys.stdout, sys.stderr):
+    _reconfigure = getattr(_stream, "reconfigure", None)
+    if _reconfigure is not None:
+        try:
+            _reconfigure(encoding="utf-8", errors="replace")
+        except (OSError, ValueError):
+            pass
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 def get_version():
