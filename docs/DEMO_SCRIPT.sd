@@ -1,0 +1,11 @@
+# S Demo Script (2–3 minutes)
+
+1. `s version` — show 3.4.0
+2. `s new demo` — project created
+3. Open main.s — greet + json
+4. `s run demo/main.s`
+5. `s check demo/main.s`
+6. Show calc.s or loops_fns.s
+7. `s release demo --key=demo` — .sbx ship
+8. `S_SHIELD_KEY=demo s run demo/dist/demo.sbx`
+9. Close: Simple · Safe · Supreme

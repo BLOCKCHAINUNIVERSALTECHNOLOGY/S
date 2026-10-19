@@ -1,0 +1,13 @@
+# Runtime roadmap (Wave 4)
+
+## Today
+- Interpreter (correctness, full language)
+- SVM bytecode (subset / parity growing)
+
+## Near-term faster path (not full native yet)
+1. Prefer `s vm` for numeric hot loops when supported
+2. Avoid huge string concat in tight loops
+3. Precompute constants outside loops
+4. Long-term: optional native backend or PyPy host
+
+S remains Python-hosted for the official 3.5 line.

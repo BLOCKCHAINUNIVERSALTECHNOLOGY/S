@@ -1,0 +1,19 @@
+# Phase C — V2.0.0-rc1 STARTED
+
+## Done (foundations)
+- C1 Benchmarks: benchmarks/*.s + RESULTS.sd (S often fewer LOC)
+- C2 LSP: OptChecker diagnostics on didOpen/didChange
+- C3 SAI: s sai status|help + env-based live/stub
+- C4 SBridge: s sbridge init <dir> → Android tree + main.s + project.se
+
+## Still needs external environment
+- Real APK build (Android SDK/Gradle on user machine)
+- Live SAI (user API key)
+- Full LSP (goto-def, rename) — partial only
+- Deep ownership / formal proofs — not started
+
+## Commands
+  python3 s bench
+  python3 s sai status
+  python3 s sbridge init myapp
+  python3 studio/lsp/server.py

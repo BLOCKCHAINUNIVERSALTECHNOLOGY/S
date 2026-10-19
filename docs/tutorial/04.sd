@@ -1,0 +1,5 @@
+# Lesson 4 — Safety
+
+```
+print valueOr(some(1), 0)\nrequire(true, "ok")
+```

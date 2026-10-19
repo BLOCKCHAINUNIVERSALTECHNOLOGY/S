@@ -1,0 +1,28 @@
+# S Core — The Complete Heart
+
+S is one product, one symbol, one command.
+
+## What is "complete" for a developer opening S today
+
+1. One command: `s`
+2. One source extension: `.s`
+3. One project file: `project.se`
+4. One lockfile: `s.lock`
+5. One docs family: `.sd`
+6. Errors that speak human S, not Python
+7. New project in one step that runs immediately
+8. Test, check, run, symbols — all offline
+
+## Core engine layout
+
+  s          → CLI (the face)
+  src/       → Core engine (lexer → parser → checker → interpreter | SVM)
+  src/slib/  → Standard library (.s modules)
+  hub/       → Packages
+  studio/    → Editor brain (LSP)
+  examples/  → Joy, not confusion
+
+## Promise
+
+Every `s run` path should either succeed clearly or fail with an S-shaped error.
+No half-story: if a feature is listed, it must work offline without external accounts.

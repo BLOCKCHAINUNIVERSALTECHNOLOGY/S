@@ -1,0 +1,28 @@
+# 11 — سب سے پہلے backup: پچھلی ناکامی دوبارہ نہ ہو
+
+## مسئلہ
+Temporary execution workspace کو permanent project storage سمجھنا غلط ہے۔ Chat record، successful tests اور downloadable artifacts خود بخود ایک durable repository نہیں بنتے۔ 'فائل بن گئی'، 'فائل محفوظ ہے' اور 'دوبارہ restore ہو گئی' تین الگ claims ہیں۔
+
+## لازمی storage policy
+Authoritative repository کسی durable local folder یا user-approved remote repository میں ہو۔ External account میں create/push/upload کے لیے الگ واضح اجازت اور connector workflow لازم ہے۔ User کے device پر installation یا upload کے بغیر ایسا کام ہونے کا دعویٰ نہ کریں۔
+ہر substantial batch کے بعد recovery snapshot بنے؛ final release ZIP سے الگ distinction رکھیں۔ اگر user interim ZIP منع کرے تو اس کی ہدایت کا احترام کرتے ہوئے durable repo یا approved non-ZIP source backup کا طریقہ پہلے agree کریں۔ اگر کوئی durable channel دستیاب نہیں تو صاف blocked status دیں، background saving کا وعدہ نہ کریں۔
+
+## snapshot میں کیا ہو
+Source، spec، tests، examples، configs، dependency lock، README، exact verification command، test report، known gaps اور checksums۔ Cache/bytecode، credentials، giant model weights اور unrelated artifacts exclude ہوں۔
+Build index میں relative path، size، SHA-256 اور schema version ہو؛ index خود اپنا checksum شامل نہ کرے۔ Hash corruption detect کرنے میں مدد دیتا ہے، authenticity یا remote backup کا متبادل نہیں۔
+
+## ہر session کی ابتدا
+1. Expected source files اور build index locate کریں۔
+2. Hashes verify کریں۔
+3. Tool version اور schema/spec version پڑھیں۔
+4. Regression suite ایک بار چلائیں۔
+5. File missing ہو تو اسی وقت رکیں اور recovery کریں؛ unrelated module بناکر 'next version integrated' نہ کہیں۔
+
+## restore drill
+Empty directory -> approved snapshot/repository restore -> dependency setup -> exact verification command -> example run -> compare outputs/hashes۔ Original workspace delete/unavailable ہونے پر بھی یہ drill کامیاب ہو تب backup proven سمجھیں۔
+
+## اگر پرانی files نہ ملیں
+گفتگو/available artifacts سے source reconstruct کریں، ہر recovered vs rewritten حصہ mark کریں، old test results reuse نہ کریں۔ نئی baseline compile/run/test کریں؛ feature matrix current source سے دوبارہ بنائیں۔ User کو missing material اور semantic deviations بتائیں۔
+
+## delivery truthfulness
+Final ZIP تبھی 'full project' ہو جب actual sources شامل اور fresh-folder tests پاس ہوں۔ صرف blueprint ZIP کو implementation نہ کہیں۔ اس موجودہ package میں صرف blueprint ہے؛ یہ recovery plan ہے، سابقہ executable code کی recovery نہیں۔

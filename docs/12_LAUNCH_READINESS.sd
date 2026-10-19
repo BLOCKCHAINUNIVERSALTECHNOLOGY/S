@@ -1,0 +1,19 @@
+# S Launch Readiness — COMPLETE WAVES 1–4
+
+## Wave 1 P0 — DONE
+## Wave 2 P1 — DONE
+## Wave 3 P2 — DONE
+## Wave 4 P3 — DONE (scaffolds) 3.5.0
+- [x] 23 Runtime roadmap (honest Python host)
+- [x] 24 SBridge Android path docs
+- [x] 25 Local monitoring `s log` + monitor.py
+- [x] 26 SUPPORT.md
+- [x] 27 Shield self-audit checklist
+- [x] 28 PRIVACY.md (no default telemetry)
+
+## Still external / not automatic
+- Host website publicly
+- Push GitHub + tag
+- Real device APK CI
+- Third-party security audit
+- Paid SLA contracts

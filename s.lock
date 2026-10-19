@@ -1,0 +1,9 @@
+{
+  "lock_version": 1,
+  "packages": {
+    "mathx": {
+      "version": "0.2.0",
+      "entry": "mathx_v2.s"
+    }
+  }
+}

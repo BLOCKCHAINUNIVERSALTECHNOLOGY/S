@@ -1,0 +1,15 @@
+# SBridge — Android path (Wave 4)
+
+## What exists
+- `s sbridge init <dir>` generates Android tree + assets/main.s
+- Host activity is a **stub** until native embed is linked
+
+## Device checklist (contributor machine)
+1. Android Studio + SDK
+2. `s sbridge init MyApp`
+3. Open as Gradle project, wire assets
+4. Run on emulator/device
+5. Replace stub with SBridge runtime when available
+
+## Status
+Scaffold = yes · Production Play Store APK = **not claimed** until device CI exists

@@ -1,0 +1,28 @@
+# S Extension Policy — S Symbol Only (Owned Formats)
+
+Rule: Har file jo S ecosystem KI HAI, uska identity S se shuru / S-branded.
+
+## Owned by S (must use S symbol)
+
+| Extension | Purpose |
+|-----------|---------|
+| .s        | Source code |
+| .sd       | Design / spec / strategy docs |
+| .se       | Project / package manifest |
+| .stest    | Test files (optional) |
+| .smod     | Packaged module archive name (future) |
+
+## NOT owned (keep industry standard when interoperating)
+
+| Extension | Why keep |
+|-----------|----------|
+| .json     | External tools / Hub wire format may still speak JSON |
+| .kt       | Kotlin compiler output must stay .kt |
+| .html/.js | Browsers require these for S Play host page |
+
+## Naming law
+
+1. New S docs → always .sd
+2. New S programs → always .s
+3. New S project config → prefer project.se
+4. Never invent .py/.kt/.java for user S code

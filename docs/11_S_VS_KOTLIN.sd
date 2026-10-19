@@ -1,0 +1,119 @@
+# S vs Kotlin — Comparison Sheet (S 3.0.0 FREEZE)
+
+Updated: 2026-10-17 · S Version 3.0.0
+
+## 1. Positioning
+
+| | **S** | **Kotlin** |
+|---|--------|------------|
+| Tagline | Simple · Safe · Supreme | Concise · Safe · Interoperable |
+| Maturity | Early / research → usable offline core | Production, industry standard |
+| Primary home | Own interpreter + SVM + tools | JVM / Android / Multiplatform |
+| Goal | Learn fast, ship sealed .sbx, one command | App & server scale, huge ecosystem |
+
+## 2. Language surface
+
+| Feature | S 3.0.0 | Kotlin |
+|---------|---------|--------|
+| Variables | `let` / `var` | `val` / `var` |
+| Null / absence | `opt`, `some`/`none`, `??`, `?.` | `T?`, `?.`, `?:`, `!!` |
+| Functions | `fn` | `fun` |
+| Classes | `class`, `new`, `this` | `class`, constructors |
+| Lambdas | `{ x -> ... }` | `{ x -> ... }` |
+| Pipe | `\|>` | mostly library / not built-in |
+| When / match | `when` | `when` (richer) |
+| Guard / early exit | `guard` | early `return` |
+| Defer | `defer` | `try/finally` / `use` |
+| Async | `async` / `await` / `spawn` (cooperative) | coroutines (mature) |
+| Collections | list, map + map/filter/sort | rich stdlib |
+| Modules | `use` / `use x as y` | packages + imports |
+| Errors | `safe/rescue`, `result` ok/err, `require` | exceptions + Result libs |
+| String interp | `"Hello, $name!"` | `"Hello, $name"` |
+| Multiline string | `"""..."""` | `"""..."""` |
+
+**S wins (ergonomics):** pipe `|>`, `defer`, simpler beginner surface, one-file mental model.  
+**Kotlin wins (depth):** coroutines, sealed hierarchies, full type system, generics, multiplatform.
+
+## 3. Safety
+
+| Topic | S | Kotlin |
+|-------|---|--------|
+| Null safety | Runtime `opt` + `s check` rules | Compile-time nullable types |
+| Contracts | `require`, `assert`, `guard` | `require`, `check`, contracts |
+| Immutability | `let` + `freeze` / strict_let | `val` + read-only collections |
+| Memory | Host GC (no manual free) | JVM/Native GC or RC |
+| Static analysis | OptChecker (growing) | Compiler + IDE inspections |
+
+**Kotlin still stronger** on compile-time null safety.  
+**S** is improving via `s check` + fail-closed Shield.
+
+## 4. Tooling
+
+| Tool | S | Kotlin |
+|------|---|--------|
+| Run | `s run` | `kotlinc` / Gradle / IDE |
+| Check | `s check` | compiler |
+| Test | `s test` (114+) | JUnit / kotlin.test |
+| Format | `s fmt` (minimal) | ktlint / IntelliJ |
+| REPL | `s repl` | `kotlin` REPL |
+| Bytecode VM | `s vm` (own SVM) | JVM bytecode |
+| Packages | `s hub` + `s.lock` | Maven/Gradle |
+| Project new | `s new` | Android Studio / wizards |
+| Release | `s release` → `.sbx` | APK/AAB/JAR |
+| LSP | goto-def, rename, complete, diagnostics | Excellent (IDEA) |
+
+## 5. Ship & protection
+
+| | S | Kotlin/Android |
+|---|---|----------------|
+| Release artifact | `.sbx` (encrypted + stripped) | APK/AAB (R8/ProGuard) |
+| Own crypto layer | S Shield SBX2 (PBKDF2, dual HMAC) | R8 + optional commercial |
+| Plain source in release | Policy: no | Often stripped/obfuscated |
+| Reverse engineering | Harder casual RE; not impossible | Same industry reality |
+
+## 6. Performance & deploy
+
+| | S | Kotlin |
+|---|---|--------|
+| Speed | Interpreter / Python-host limited | JVM JIT / Native strong |
+| Single binary | Not yet | Possible (Native) |
+| Android production | Scaffold / stub path | First-class |
+| Server | Possible via host | Excellent |
+
+## 7. LOC feel (benchmarks folder)
+
+Typical small scripts: **S often fewer lines** (hello, pipe chain, list unique).  
+Large apps: **Kotlin ecosystem wins** (libraries, UI, concurrency).
+
+## 8. When to choose which
+
+**Choose S if you want:**
+- Fast learning, few concepts
+- Offline core + one CLI (`s`)
+- Sealed `.sbx` ship with own Shield
+- Experimentation / teaching / small tools
+
+**Choose Kotlin if you want:**
+- Production Android or large JVM backend
+- Mature coroutines + libraries
+- Hiring market + long-term vendor support
+- Compile-time null safety guarantees
+
+## 9. Scorecard (honest, S 3.0.0)
+
+| Category | Edge |
+|----------|------|
+| Beginner simplicity | **S** |
+| Syntax ergonomics (pipe/defer) | **S** |
+| Type / null safety depth | **Kotlin** |
+| Concurrency | **Kotlin** |
+| Performance | **Kotlin** |
+| Ecosystem | **Kotlin** |
+| Own sealed release story | **S** |
+| IDE maturity | **Kotlin** |
+| Offline single-toolchain joy | **S** |
+
+## 10. One line
+
+> **S is the simple sealed offline core; Kotlin is the industrial platform.**  
+> S 3.0.0 is usable and tested — not a Kotlin replacement for large production Android yet.

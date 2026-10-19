@@ -1,0 +1,29 @@
+# 09 — verification matrix، security اور benchmark honesty
+
+## tests کی تہیں
+Lexer: every token، Unicode text، escapes، EOF، comments، malformed numbers۔
+Parser: precedence، associativity، nesting، missing delimiters، > followed by =، invalid assignment target۔
+Types: names/scopes، duplicate params، immutability، generics/empty inference، builtin arity، returns۔
+Runtime: short circuit، evaluation order، loops، return propagation، index bounds، collection functional behaviour۔
+Modules: chain، diamond، duplicate imports/exports، cycle، missing file، path/symlink escapes، original source position۔
+CLI: actual subprocess، stdout/stderr/exit code، spaces والے paths، --json، invalid arguments، no engine، unsupported commands۔
+Project/tests: no overwrite، schema checks، expected output/error، zero cases، per-case isolation۔
+Backends/Android/AI: target-specific tests؛ local mock اور real integration کے نتائج الگ۔
+
+## counting
+Single current commit کے tests report ہوں۔ '127 tests passed' میں tests کی تعریف method/case ہو؛ تاریخی الگ suites کو جوڑ کر current verified total نہ بنائیں۔ Test artifact میں command، host version، commit/source hash، timestamp، counts، failures اور skipped reasons محفوظ ہوں۔
+
+## fuzz/property testing
+Parser کے random malformed input سے no hang/no host crash؛ formatter idempotence؛ parser/pretty-printer round trip جہاں semantics define ہوں؛ map/list copies original نہ بدلیں؛ import graph ordering deterministic۔
+Golden tests میں expected AST/diagnostic source paths normalize ہوں، مگر اصل information نہ مٹے۔
+
+## resource model
+Source bytes، token count، parse nesting، import depth/files، call depth، steps، output bytes اور collection allocation caps الگ ہیں۔ AST-step limit کسی huge integer/string allocation کو لازماً نہیں روک سکتا۔ Host process memory/CPU/wall-clock isolation untrusted execution کے لیے ضروری design layer ہے۔
+Module path containment TOCTOU-proof security guarantee نہیں۔ Package extraction اور network/filesystem libraries کے threats الگ ہیں۔ Secrets نہ log ہوں، نہ snapshots میں جائیں۔
+
+## benchmark plan
+Kotlin سے پہلے correctness compare کریں۔ Same workload/input، optimized/release settings، warmup/JIT policy، cold start، total execution time، peak memory، binary/APK size اور build time الگ measure کریں۔ Multiple runs اور hardware/software metadata دیں۔
+ایک Hello World یا chosen microbenchmark پوری language superiority ثابت نہیں کرتا۔ Python-hosted reference interpreter سے native speed کی توقع نہ بیچیں۔
+
+## security release gates
+Dependency/license review؛ unsafe input audit؛ permissions least privilege؛ error redaction؛ signed/reproducible artifacts جہاں applicable؛ vulnerability reporting process۔ 'Safe' کا scope واضح ہو: static null checks، host memory model، interop risks اور OS failures ایک ہی چیز نہیں ہیں۔

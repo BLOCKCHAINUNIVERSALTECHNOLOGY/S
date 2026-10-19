@@ -1,0 +1,16 @@
+# W-WEB-1 — Static HTML from S
+
+## Builtins
+- html_escape(text) — XSS baseline escape
+- html_tag(name, body [, attrs map])
+- html_page(title, body_html)
+
+## CLI
+  s html build site.s --out=dir
+
+## Example
+  examples/static_site/site.s
+
+## Non-goals (later waves)
+- Live server (W-WEB-2)
+- Forms (W-WEB-3)

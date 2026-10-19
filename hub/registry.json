@@ -1,0 +1,28 @@
+{
+  "name": "S Hub",
+  "version": "1.9.1",
+  "packages": {
+    "mathx": {
+      "description": "Extra math helpers",
+      "tags": ["math"],
+      "versions": [
+        { "version": "0.1.0", "entry": "mathx.s" },
+        { "version": "0.2.0", "entry": "mathx_v2.s" }
+      ]
+    },
+    "greetx": {
+      "description": "Greeting helpers",
+      "tags": ["text"],
+      "versions": [
+        { "version": "0.1.0", "entry": "greetx.s" }
+      ]
+    },
+    "jsonx": {
+      "description": "Simple JSON-ish helpers",
+      "tags": ["data"],
+      "versions": [
+        { "version": "0.1.0", "entry": "jsonx.s" }
+      ]
+    }
+  }
+}

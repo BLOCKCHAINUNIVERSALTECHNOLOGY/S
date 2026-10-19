@@ -1,0 +1,320 @@
+# S Language — Full Product Strategy & Blueprint
+# Goal: Cover gaps → load-ready product → public production path
+# Version: Blueprint 1.0 · Base: S 3.5.0 · Date: 2026-10-19
+
+==============================================================================
+0. VISION (one sentence)
+==============================================================================
+S becomes a trustworthy offline-first language people use to build real
+CLI tools, sealed apps, small backends, and (phase by phase) web surfaces —
+without pretending to replace Kotlin/JS on day one.
+
+Success metric (12 months):
+  - Strangers install in < 2 minutes
+  - 1000+ `s run` successful sessions / month (or equivalent)
+  - At least 3 real projects built by non-authors
+  - Zero critical unrepaired security issues > 30 days
+
+==============================================================================
+1. CURRENT BASELINE (truth)
+==============================================================================
+HAVE:
+  - Core language (fn, loops, class, opt, pipe, when, async surface)
+  - CLI: run check test new build release hub doctor repl vm log
+  - Shield .sbx, LSP basics, 123 tests, Waves 1–4 packaging docs
+  - HTTP client builtins, JSON, hash, time
+
+HAVE NOT (product blockers for "load"):
+  - Public hosted install + website live
+  - Web UI / HTML generation framework
+  - Strong static types
+  - Production concurrency + fast runtime
+  - Real Android on-device CI
+  - Package ecosystem with users
+  - Observability under multi-user load
+
+==============================================================================
+2. PRODUCT DEFINITION — what users can BUILD (phased)
+==============================================================================
+TIER A — NOW → +6 weeks (must ship)
+  A1. CLI tools & automation scripts
+  A2. Data scripts (JSON/HTTP clients)
+  A3. Learning / course materials
+  A4. Sealed offline utilities (.sbx)
+
+TIER B — +2–4 months
+  B1. Small HTTP API servers (request → response)
+  B2. Static site generators (S → HTML files)
+  B3. Backend workers / cron-style jobs
+  B4. Hub packages published by community
+
+TIER C — +4–9 months
+  C1. Simple interactive web apps (forms + server)
+  C2. Optional faster runtime path
+  C3. Android demo apps on device (not full Play ecosystem)
+  C4. Paid support option (if demand)
+
+OUT OF SCOPE YEAR-1:
+  - Full SPA framework competing with React
+  - AAA games
+  - Drop-in Kotlin Android replacement
+
+==============================================================================
+3. GAP → FEATURE MAP (every deficiency covered)
+==============================================================================
+GAP                         | STRATEGY WORKSTREAM        | OUTPUT
+----------------------------|----------------------------|------------------
+No public website host      | W-SITE                     | Live docs + install
+Cannot "build websites"     | W-WEB                      | s.html + static gen
+Weak types                  | W-TYPES                    | Checker v2
+Slow / Python-bound         | W-SPEED                    | SVM+opt + docs
+Thin stdlib                 | W-STDLIB                   | Frozen + expanded API
+Weak concurrency            | W-ASYNC                    | Structured tasks
+Android incomplete          | W-MOBILE                   | Device smoke path
+No load story               | W-LOAD                     | Bench + limits
+No packages community       | W-HUB                      | Remote registry
+Support unclear             | W-OPS                      | SLA tiers optional
+Security claims risk        | W-SEC                      | Audit cadence
+Privacy/telemetry           | W-OPS                      | PRIVACY kept honest
+
+==============================================================================
+4. WORKSTREAM BLUEPRINTS (step-by-step detail)
+==============================================================================
+
+--------------------------------------------------------------------------
+W-SITE — Public presence (2 weeks)
+--------------------------------------------------------------------------
+Step 1: Choose host (GitHub Pages / Cloudflare Pages / Netlify)
+Step 2: Deploy `website/` as root; custom domain optional
+Step 3: README badges → CI status, version, license
+Step 4: Download page: install.sh + zip of release tag
+Step 5: Analytics only if consent (default off)
+Exit: stranger opens URL, installs, runs hello in < 5 min
+
+--------------------------------------------------------------------------
+W-WEB — "S se website" path (6–10 weeks)
+--------------------------------------------------------------------------
+Phase W-WEB-1 (static pages) — 2 weeks
+  Step 1: Builtin or module `html_escape`, `html_tag`
+  Step 2: `s html build site/` reads `.s` templates → `.html` files
+  Step 3: Example: blog list + about page generated from S
+  Step 4: Tests for escape (XSS baseline)
+  Step 5: Docs: "Static sites with S"
+
+Phase W-WEB-2 (mini server) — 3–4 weeks
+  Step 1: `s serve ./public --port 8080` static file server
+  Step 2: Route table in S: path → fn(request) → response
+  Step 3: JSON API example `/api/hello`
+  Step 4: Concurrency model: sequential first, then thread pool optional
+  Step 5: Load note: single-process limits documented
+
+Phase W-WEB-3 (forms) — 2–3 weeks
+  Step 1: Parse query + form body
+  Step 2: Example contact form → log file
+  Step 3: CSRF not full framework — document threat model
+Exit: user can generate static site AND run small API in S
+
+--------------------------------------------------------------------------
+W-TYPES — Checker v2 (4–6 weeks parallel)
+--------------------------------------------------------------------------
+Step 1: Track types for let/var/fn params returns in scope table
+Step 2: Call arity + arg type soft/hard errors
+Step 3: list[T] / map[K,V] optional annotations
+Step 4: Mode: s check --strict
+Step 5: 50+ type tests
+Exit: strict mode catches real bugs without blocking scripts
+
+--------------------------------------------------------------------------
+W-STDLIB — Expand + freeze (ongoing, 4 weeks burst)
+--------------------------------------------------------------------------
+Step 1: Freeze current API (already docs/14_STDLIB_API.sd)
+Step 2: Add: path join, env get, regex match, csv split, date format
+Step 3: Each function: example + test + doc line
+Step 4: Versioned stdlib changelog
+Exit: "batteries" enough for Tier A+B apps
+
+--------------------------------------------------------------------------
+W-SPEED — Performance (parallel, 6–8 weeks)
+--------------------------------------------------------------------------
+Step 1: Benchmark suite (fib, json, list map) baseline numbers
+Step 2: SVM parity for hot ops (slice, while)
+Step 3: Document "use vm when…"
+Step 4: Optional: PyPy compatibility test
+Step 5: Later research: transpile subset to C/Rust (Tier C)
+Exit: published numbers + no false speed claims
+
+--------------------------------------------------------------------------
+W-ASYNC — Concurrency (4–6 weeks after server)
+--------------------------------------------------------------------------
+Step 1: Define task model (spawn already exists — formalize)
+Step 2: Channel or queue primitive
+Step 3: Server uses pool for requests
+Step 4: Tests for race-free examples
+Exit: small concurrent server demos
+
+--------------------------------------------------------------------------
+W-MOBILE — Android honesty path (8+ weeks, contributor-led)
+--------------------------------------------------------------------------
+Step 1: Keep sbridge init stable
+Step 2: Document Gradle wiring with screenshots
+Step 3: One reference app on emulator
+Step 4: Optional CI with Android emulator (expensive — later)
+Exit: "runs on emulator" not "Play Store ready"
+
+--------------------------------------------------------------------------
+W-HUB — Packages (4 weeks + ongoing)
+--------------------------------------------------------------------------
+Step 1: Remote index.json schema stable
+Step 2: `s hub publish` local → tarball
+Step 3: Host simple static registry (GitHub releases)
+Step 4: First 5 official packages: html, httpx, jsonx, testkit, cli
+Exit: third party can install one package
+
+--------------------------------------------------------------------------
+W-LOAD — Production under load (3–4 weeks)
+--------------------------------------------------------------------------
+Step 1: Define load profile: 10 / 100 concurrent scripted clients
+Step 2: Bench `s serve` static + API
+Step 3: Document max safe RPS on reference hardware
+Step 4: Fail guidelines (when to put nginx in front)
+Step 5: Health endpoint `/health`
+Exit: load numbers + architecture advice
+
+--------------------------------------------------------------------------
+W-SEC / W-OPS — Security & operations (continuous)
+--------------------------------------------------------------------------
+Step 1: Quarterly Shield self-audit (docs/17)
+Step 2: Dependency review (Python stdlib only where possible)
+Step 3: SECURITY.md response process drill
+Step 4: Support tiers in SUPPORT.md when first paid user appears
+Step 5: No silent telemetry (PRIVACY.md)
+
+==============================================================================
+5. MASTER SEQUENCE (calendar — sequential + parallel)
+==============================================================================
+
+MONTH 1 — "Public + Static Web"
+  Week 1: W-SITE live deploy + tag v3.5.x
+  Week 2: W-WEB-1 html helpers + static generator MVP
+  Week 3: W-STDLIB burst (regex, env, path)
+  Week 4: W-TYPES start + polish errors; soft beta announce
+
+MONTH 2 — "Small servers"
+  Week 5–6: W-WEB-2 s serve + routes
+  Week 7: W-LOAD baseline benches
+  Week 8: W-HUB first packages + docs
+
+MONTH 3 — "Hardening"
+  Week 9–10: W-TYPES strict mode
+  Week 11: W-SPEED SVM parity push
+  Week 12: Official launch event (HN etc.) if metrics ok
+
+MONTH 4–6 — "Tier B complete"
+  W-WEB-3 forms, W-ASYNC, W-MOBILE emulator demo, more packages
+
+MONTH 7–12 — "Tier C selective"
+  Faster runtime research, optional paid support, audit if funded
+
+==============================================================================
+6. STEP-BY-STEP EXECUTION PROTOCOL (how we work each item)
+==============================================================================
+For EVERY feature:
+  1. Spec (.sd) — behavior + non-goals
+  2. Tests first or with code (s test green)
+  3. Implement minimal vertical slice
+  4. Example in examples/
+  5. Doc line in stdlib or tutorial
+  6. CHANGELOG entry
+  7. Doctor/smoke still pass
+  8. Only then mark checklist [x]
+
+No feature ships without: test + example + doc.
+
+==============================================================================
+7. "WEBSITE WITH S" — explicit product answer
+==============================================================================
+Users WILL be able to:
+  1. Generate multi-page static websites from S (Month 1–2)
+  2. Serve static files + JSON APIs with `s serve` (Month 2)
+  3. Handle simple forms to files/logs (Month 3–4)
+
+Users will NOT (year 1) get:
+  - React-level SPA framework
+  - Built-in fancy CSS framework (use normal CSS files)
+  - Automatic scaling cloud
+
+Architecture recommendation for production sites:
+  [Browser] → [CDN/static] → optional [nginx] → [s serve API]
+
+==============================================================================
+8. RESOURCE PLAN
+==============================================================================
+Minimum (solo / small team):
+  - 1 language owner
+  - 1 docs/site owner (can be same person)
+  - Community triage 2–3 hrs/week after launch
+
+Tools:
+  - GitHub + Actions (have)
+  - Pages host
+  - Optional Discord
+
+Budget optional:
+  - Domain
+  - Formal audit only if commercial claims need it
+
+==============================================================================
+9. GO / NO-GO GATES
+==============================================================================
+GATE Soft beta:
+  [ ] Public repo + LICENSE + CI green
+  [ ] Live website install works on clean OS
+  [ ] Static HTML generation demo published
+
+GATE Official launch:
+  [ ] s serve demo public
+  [ ] 20+ external issues or stars OR 5 real user projects
+  [ ] Load doc published
+  [ ] Security process tested once
+
+GATE "Product under load":
+  [ ] Bench numbers public
+  [ ] Health endpoint
+  [ ] Failure mode docs (what breaks first)
+
+==============================================================================
+10. RISK REGISTER
+==============================================================================
+Risk: Overpromise web framework → mitigate: Tier language in README
+Risk: Python speed complaints → mitigate: honest PERF docs + SVM path
+Risk: Single maintainer burnout → mitigate: CONTRIBUTING + scope freeze
+Risk: Shield marketing vs reality → mitigate: SECURITY.md exact claims
+Risk: Scope creep Android → mitigate: emulator demo only until funded
+
+==============================================================================
+11. IMMEDIATE NEXT ACTIONS (start covering now)
+==============================================================================
+N1. Tag release 3.5.0 on git host
+N2. Deploy website/
+N3. Spec W-WEB-1 (html module) and implement vertical slice
+N4. Add examples/static_site/
+N5. Update README "What you can build" section with Tier A/B/C
+
+==============================================================================
+12. CHECKLIST TRACKER (copy forward)
+==============================================================================
+[ ] W-SITE
+[x] W-WEB-1 static
+[x] W-WEB-2 serve
+[ ] W-WEB-3 forms
+[ ] W-TYPES v2
+[ ] W-STDLIB expand
+[ ] W-SPEED benches
+[ ] W-ASYNC
+[ ] W-MOBILE emulator
+[ ] W-HUB packages
+[ ] W-LOAD benches
+[ ] W-SEC quarterly
+[ ] Official launch gate
+
+END OF BLUEPRINT

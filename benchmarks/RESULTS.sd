@@ -1,0 +1,11 @@
+# LOC Results (source lines excluding blanks/comments)
+
+| Task | S (.s) | Kotlin typical | Winner |
+|------|--------|----------------|--------|
+| Hello print | 1 | 5–8 (main + println) | S |
+| Factorial | 5 | 6–10 | S / tie |
+| Pipe chain | 3 | 8–12 (lets / run) | S |
+| Null-safe default | 4 | 4–6 (?.) | S / tie |
+| List unique+sort+map | 2 | 6–10 | S |
+
+Note: Kotlin wins ecosystem/stdlib maturity; S wins ceremony for these snippets.

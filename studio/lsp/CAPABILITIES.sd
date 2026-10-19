@@ -1,0 +1,11 @@
+# S LSP capabilities (Week 3)
+
+- textDocumentSync
+- completion (keywords, builtins, symbols)
+- hover
+- definition (goto-def)
+- references
+- rename
+- diagnostics (parse + opt checker)
+
+Start: python3 studio/lsp/server.py

@@ -1,0 +1,78 @@
+# 02 — S grammar اور lexer specification کا baseline
+
+یہ proposed consistent baseline ہے، سابقہ متضاد drafts کا literal copy نہیں۔ EBNF میں * repetition، ? optional، | alternatives ہیں۔ terminator rules اور semantic restrictions نیچے لازم ہیں۔
+
+## lexer
+Identifiers: ASCII letter یا underscore سے شروع، بعد میں letters/digits/underscore۔ Unicode identifiers مستقبل کا الگ فیصلہ۔
+Integers: digits؛ minus الگ unary operator۔
+Decimals: digits '.' digits۔ scientific notation پہلے version میں نہیں۔
+Strings: double quotes؛ supported escapes صرف \n، \t، \r، \"، \\۔ raw newline اور unknown escape reject کریں۔
+Comments: // line؛ /* ... */ non-nested block۔ unterminated forms پر واضح diagnostic۔
+Whitespace: spaces/tabs skip؛ newline token محفوظ۔ comments میں newline statement boundary policy کے مطابق محفوظ ہو۔
+Longest match: '..', '==', '!=', '<=', '>=' پہلے؛ پھر single punctuation۔
+Generic type parse کے دوران '>=' کو ضرورت پڑنے پر '>' اور '=' میں split کریں؛ expression comparison میں ایسا نہ کریں۔
+Tokens میں kind، raw text، decoded value، file ID، start/end offsets، line/column محفوظ ہوں۔
+
+Keywords:
+let var fn ret if else loop for in break next true false nil and or not use class new this safe rescue
+main عام identifier ہے، reserved keyword نہیں۔ Builtins بھی ordinary names ہیں، مگر ابتدائی release میں shadowing ممنوع ہو۔
+
+## EBNF
+program       := declaration* EOF
+module        := (use_decl | fn_decl)* EOF
+use_decl      := 'use' IDENT ('.' IDENT)* END
+fn_decl       := 'fn' IDENT '(' params? ')' ':' type block
+params        := param (',' param)*
+param         := IDENT ':' type
+type          := 'int' | 'dec' | 'str' | 'bool' | 'unit'
+               | 'list' '<' type '>'
+               | 'map' '<' 'str' ',' type '>'
+               | 'opt' '<' type '>' | IDENT
+declaration   := use_decl | fn_decl | class_decl | statement
+statement     := var_decl | assignment | if_stmt | loop_stmt | for_stmt
+               | break_stmt | next_stmt | return_stmt | safe_stmt
+               | expression END
+var_decl      := ('let' | 'var') IDENT (':' type)? '=' expression END
+assignment    := assign_target '=' expression END
+assign_target := IDENT | member_target | index_target
+if_stmt       := 'if' expression block ('else' (block | if_stmt))?
+loop_stmt     := 'loop' block
+for_stmt      := 'for' IDENT 'in' expression block
+break_stmt    := 'break' END
+next_stmt     := 'next' END
+return_stmt   := 'ret' expression? END
+block         := '{' statement* '}'
+safe_stmt     := 'safe' block 'rescue' IDENT block
+class_decl    := 'class' IDENT '{' class_member* '}'
+class_member  := var_decl | fn_decl
+expression    := range
+range         := logical_or ('..' logical_or)?
+logical_or    := logical_and ('or' logical_and)*
+logical_and   := equality ('and' equality)*
+equality      := comparison (('==' | '!=') comparison)?
+comparison    := addition (('<' | '>' | '<=' | '>=') addition)?
+addition      := multiplication (('+' | '-') multiplication)*
+multiplication:= unary (('*' | '/' | '%') unary)*
+unary         := ('-' | 'not') unary | postfix
+postfix       := primary (call_suffix | index_suffix | member_suffix)*
+call_suffix   := '(' arguments? ')'
+index_suffix  := '[' expression ']'
+member_suffix := '.' IDENT
+arguments     := expression (',' expression)*
+primary       := INT | DEC | STRING | 'true' | 'false' | 'nil'
+               | IDENT | 'this' | '(' expression ')' | list_literal
+               | 'new' IDENT '(' arguments? ')'
+list_literal  := '[' (expression (',' expression)*)? ']'
+
+member_target/index_target کو parser postfix nodes سے اخذ کرے؛ ہر postfix assignable نہیں۔ lexer target کے لیے الگ syntax ایجاد نہ کرے۔ شروع میں assignment صرف IDENT تک محدود کرکے باقی دو forms reserved رکھ سکتے ہیں۔
+
+## END اور multiline policy
+Simple statement newline یا semicolon پر ختم ہو۔ '}' اور EOF آخری statement کا implicit terminator بن سکتے ہیں۔ else/rescue سے پہلے newlines جائز ہوں۔ ابتدا میں expression ایک physical line پر ہو؛ بعد میں parentheses/brackets کے اندر continuation الگ tested feature بنائیں۔ صرف indentation سے scope نہ بدلیں۔
+
+## staged grammar
+class/new/this، opt/nil، safe/rescue اور member/index assignment مکمل semantics آنے تک reject ہوں، silently ignore نہ ہوں۔ v0.1 parser صرف implemented subset accept کرے؛ future grammar support کو achieved feature نہ کہیں۔ map literals پہلے version میں نہ دیں؛ mapOf builtin استعمال کریں تاکہ braces block سے ambiguous نہ ہوں۔
+
+Class initializer کا محفوظ convention: class body میں fn init(...) : unit، new C(args) اسے constructor کے طور پر call کرے؛ ایک class میں ایک init، کوئی implicit overload نہیں۔ init میں ret expression منع؛ this صرف instance context میں۔
+
+## precedence notes
+Range سب سے کم binding، postfix سب سے زیادہ۔ Assignment expression نہیں، اس لیے precedence table میں '=' شامل نہیں۔ Arithmetic left associative ہے۔ chained comparison/equality ابتدا میں reject کریں؛ user explicit 'and' یا parentheses لکھے۔ '?' کو optional propagation semantics اور return type rules طے ہونے تک grammar میں نہ دیں۔

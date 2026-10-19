@@ -1,0 +1,22 @@
+# S All-Platforms Packages
+
+Built artifacts under `dist/platforms/`:
+
+| Archive | Contents |
+|---------|----------|
+| linux-*.tar.gz | Full tree + optional s_fast native |
+| macos-universal.tar.gz | Portable Python S core |
+| windows-x86_64.tar.gz | Portable + s.bat |
+
+## Requirements
+- Python 3.10+ on PATH (all platforms)
+- Native Rust binary: built on Linux CI host; rebuild on Mac/Windows with cargo for accel
+
+## Build
+```bash
+bash build.sh
+bash scripts/package_platform.sh linux-x86_64   # or lean pack scripts
+```
+
+## Cross-compile note
+This environment has no rustup/mingw/osxcross. Native binaries for Win/Mac must be built on those OSes or a full cross toolchain. Language itself is pure-Python portable.

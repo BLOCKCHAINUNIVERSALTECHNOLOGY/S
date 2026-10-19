@@ -1,0 +1,26 @@
+# S Language Reference 4.0
+
+## Keywords
+let var fn ret if elif else while for in loop break next
+class new this safe rescue print assert when enum
+defer async await spawn repeat as guard use
+
+## Types (annotations)
+int str bool dec list map opt — checked lightly by s check
+
+## Operators
++ - * / % == != < > <= >= and or not
+|> ?? ?. ? : (ternary) += -= *= /=
+
+## Builtins (selected)
+print len map filter push pop sort unique sum any all
+some none valueOr ok err unwrap require freeze
+json_parse json_stringify http_get http_post
+hash clock min max abs floor ceil round clamp
+keys values take drop find zip
+html_escape html_tag html_page
+env_get path_join regex_match csv_split date_fmt exit
+
+## CLI
+s run | check | test | new | build | release | serve | html build
+s doctor | repl | vm | hub | log | version

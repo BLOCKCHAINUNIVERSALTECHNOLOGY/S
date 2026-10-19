@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>S Tutorial</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+    pre { background: #111; color: #eee; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+    a { color: #0a7; }
+  </style>
+</head>
+<body>
+  <p><a href="index.html">← Home</a></p>
+  <h1>S Tutorial</h1>
+  <h2>1. Run</h2>
+  <pre>python3 s run examples/hello.s</pre>
+  <h2>2. Variables &amp; functions</h2>
+  <pre>let x = 10
+fn double(n: int): int { ret n * 2 }
+print double(x)</pre>
+  <h2>3. Lists &amp; loops</h2>
+  <pre>for n in [1, 2, 3] { print n }
+while i &lt; 3 { i += 1 }</pre>
+  <h2>4. Safety</h2>
+  <pre>print valueOr(none(), 0)
+guard x &gt; 0
+require(ok, "failed")</pre>
+  <h2>5. Project</h2>
+  <pre>s new app
+s check app/main.s
+s release app --key=secret</pre>
+  <h2>6. Next</h2>
+  <p>Read <code>docs/</code>, try <code>examples/apps/</code>, run <code>s doctor</code>.</p>
+</body>
+</html>

@@ -1,0 +1,34 @@
+# 07 — اپنے commands اور developer tooling
+
+## user interface
+s run FILE.s [--root DIR] [--limit N]
+s check FILE.s [--root DIR] [--json]
+s ast FILE.s [--root DIR]
+s tokens FILE.s
+s new NAME
+s project check [DIR]
+s test [DIR] [--list]
+s doctor
+s --version / s --help
+
+Future: s fmt، s lint، s build --target ...، s package ...۔ Unsupported command clearly nonzero return دے، empty output یا fake success نہیں۔
+
+## bootstrap
+Unix launcher اپنے مقام سے implementation تلاش کرے، cwd سے نہیں۔ Executable permission، spaces والے paths اور missing Python کو test کریں۔ Windows wrapper argument quoting اور exit-code propagation verify کرے؛ Windows پر چلائے بغیر 'cross-platform verified' نہ کہیں۔ PATH installation الگ installer step ہے، local invocation اس کا ثبوت نہیں۔
+
+## diagnostic format
+Human: file:line:column، error code، concise message، optional source excerpt۔
+JSON: schema، ok، diagnostics array؛ ہر diagnostic میں code/severity/message/file/start/end، optional notes۔ اگر پرانے prototype میں صرف strings ہوں تو اسے structured object format نہ کہیں۔
+No color when redirected/JSON mode؛ errors stderr پر، machine-readable requested result stdout پر consistent policy سے۔
+
+## exit codes
+0 success؛ 1 user/source/test failure؛ 2 CLI usage/no-test policy۔ Internal tool bug کے لیے الگ documented code اور debug switch۔ Explicit tests کے بغیر تمام exception handling کو ایک generic success/failure میں نہ چھپائیں۔
+
+## .sxs schema 1
+Success case: schema=1، source string، stdout array of lines۔
+Failure case: schema=1، source string، non-empty error_contains string۔
+ایک case میں دونوں expectations منع۔ Unknown keys reject۔ Runtime/static failure کا phase اور error code match schema 2 میں شامل کریں؛ substring-only tests incidental text پر fragile ہو سکتے ہیں۔
+Runner ہر case کے لیے fresh runtime اور budget بنائے؛ one failing case کے بعد باقی چلیں۔ Zero tests واضح طور پر report ہوں۔ Tests کی counting methods/cases/subtests میں فرق documentation میں بتائیں۔
+
+## formatter/linter/editor
+Formatter AST/token-preserving ہو؛ formatting سے semantics نہ بدلیں، idempotence test لازم۔ Linter correctness checker سے الگ warnings دے۔ IDE پہلے existing editor extension/LSP ہو؛ مکمل S Studio بعد میں۔ Playground reference frontend کے compatible subset سے بنے؛ browser sandbox اور resource limits independent verification مانگتے ہیں۔

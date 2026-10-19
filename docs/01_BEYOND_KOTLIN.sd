@@ -1,0 +1,65 @@
+# STRATEGY: S > Kotlin — Blueprint V1.8
+
+## North star
+
+Kotlin jeet-ta hai: JVM ecosystem, coroutines maturity, tooling, corporate adoption.
+S jeet-ega: Simple + Safe + Supreme — kam concepts, built-in AI/Android, clearer safety, faster learn, unique ergonomics.
+
+## Pillars
+
+### P1 — Simplicity (learn in days, not weeks)
+- One primary file type: .s
+- Minimal keywords, obvious control flow
+- No ceremony for common tasks (pipe, defer, ternary, repeat)
+
+### P2 — Safety without complexity
+- opt + ?? + valueOr (explicit absence)
+- freeze for immutable collections
+- safe/rescue (structured errors)
+- result ok/err (explicit failure)
+- Future: static opt checking, deep freeze by default on let
+
+### P3 — Supreme surface (Kotlin needs libraries)
+- SAI built-in AI
+- SDX built-in Android API surface
+- Slib batteries
+- One toolchain: s run | s vm | s emit | s hub
+
+### P4 — Power features Kotlin lacks or makes heavy
+- Pipe |>
+- defer
+- repeat n
+- freeze
+- use as alias namespaces
+- Cooperative async with simple async/await
+- String interpolation + slices
+
+### P5 — Execution plan (phased)
+
+Phase A (NOW — V1.8):
+- Extension law locked
+- guard statement (early exit)
+- safe-call on opt: x?.field style via `dig` or `?.`
+- multi-line strings
+- list unique / reverse / sort helpers
+- project.se manifest support
+- More tests
+
+Phase B:
+- Static opt warnings in s check
+- Deep let freeze option
+- Lambdas in SVM
+- Package version constraints
+
+Phase C:
+- Real SBridge APK path
+- Real SAI providers default
+- LSP completeness
+- Benchmarks vs Kotlin snippets (LOC + time-to-first-app)
+
+## Success metrics
+
+- Same app idea: fewer lines than Kotlin
+- Null-related crashes: fewer by design
+- Time to first Android+AI hello: shorter (stubs → real)
+- Beginner can read any .s file without 10 concepts first

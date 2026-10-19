@@ -1,0 +1,45 @@
+# 08 — پہلے دن سے مکمل ecosystem تک dependency-ordered roadmap
+
+ہر milestone ایک working commit، source snapshot، regression result اور recovery test کے ساتھ ختم ہو۔ Calendar dates یا guaranteed duration ابھی مت دیں۔
+
+## M0: recovery اور specification freeze
+Source registry، durable repository، backup restore، naming ADR، grammar version اور known-gap list۔ Exit: fresh folder میں snapshot سے baseline واپس آ جائے۔
+
+## M1: vertical slice
+Lexer، minimal expressions، let/print، AST، checker، interpreter، s run/check۔ Exit: exact-output success + static preflight failure دونوں subprocess سے verify ہوں۔
+
+## M2: primitive completeness
+Strings/escapes/comments، bool logic، numeric semantics، source spans، var/assignment، conditions، diagnostics۔ Exit: malformed input host traceback نہ دے؛ precedence اور short circuit tests pass۔
+
+## M3: functions اور control flow
+Typed params/returns، self recursion، if/else return analysis، loop/break/next، for/ranges، context checks۔ Exit: function caller loop کو break نہ کر سکے؛ depth/step caps اور scope tests۔
+
+## M4: collections
+Homogeneous lists، nested generic types، empty-context inference، indexing، functional list operations، string-key maps، map operations/printing/type۔ Exit: originals unchanged، invalid types rejected، missing keys/bounds errors deterministic۔
+
+## M5: real projects/modules
+project.se، source manager، use resolver، DFS cycles/dedup، root checks، CLI/test integration۔ Exit: multi-file function actual s run سے execute ہو؛ diagnostic imported original file کو point کرے۔
+
+## M6: reliability batch
+Assertions، positive/negative .sxs cases، JSON diagnostics، AST/tokens inspection، doctor، resource budgets، recovery automation۔ Exit: one canonical full regression suite اور clean environment reproduction۔
+
+## M7: optional/error/object batch
+opt tagged values، explicit optional APIs، structured Error، safe/rescue، classes/new/this/member resolution۔ Generic semantics اور backend invariants پر dependency review ہو۔ Exit: each feature parse/type/runtime/failure tests کے ساتھ integrated ہو؛ placeholder classes accepted نہ ہوں۔
+
+## M8: library اور packages
+Slib، effect/capability model، spack، lockfile، deterministic package extraction، version constraints۔ Exit: offline reproducible dependency restore اور malicious archive tests۔
+
+## M9: alternate backends
+Checked IR -> Kotlin/JVM پہلے، پھر native/web strategy evaluate کریں۔ Reference interpreter semantics differential tests کا oracle ہو۔ Exit: same program outputs/errors chosen backends پر specified equivalent ہوں۔
+
+## M10: Android اور AI
+Android SBridge/SDX اور provider-neutral SAI کی الگ acceptance suites؛ detailed plan document 10 میں۔ Exit: signed test APK اور test model/provider integration actual target environments پر verify ہوں۔
+
+## M11: editor، playground، release
+LSP/editor integration، browser playground، installation، compatibility docs، versioning، security review، community governance۔ Exit: release checklist document 12 مکمل ہو۔
+
+## parallel work
+Spec/tests/docs ساتھ چل سکتے ہیں؛ backend/module/IDE developers interfaces agree کریں۔ ایک ہی وقت غیر مستحکم grammar، runtime اور native backend سب redesign نہ کریں۔ Feature breadth کے بجائے complete vertical slices گنیں۔
+
+## بڑے batches کا صحیح طریقہ
+ایک batch میں related features ساتھ بنیں، مگر definition-of-done نہ چھوڑیں۔ دن کے آخر میں Designed/Implemented/Verified/Blocked matrix؛ ہر feature پر user سے 'next' نہ مانگیں۔ Batch failure آئے تو logs کے ساتھ fix کریں، test count بڑھاکر unresolved integration نہ چھپائیں۔

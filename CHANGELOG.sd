@@ -1,0 +1,19 @@
+# S CHANGELOG
+
+## 3.0.0 — FREEZE (Week 4)
+- s release gate (test + check + build)
+- examples/apps sample pack
+- 110+ tests
+- Production-minded offline core
+
+## 2.5.x — Week 3
+- require(), SVM ternary, checker unwrap(none)
+
+## 2.4.x — Week 2
+- hash/clock/min/max, s build, docs gallery
+
+## 2.3.x — Week 1
+- JSON/HTTP, calc/todo, 100 tests
+
+## 2.2.x — S Shield
+- SBX2 encryption, anti-tamper, seal-append

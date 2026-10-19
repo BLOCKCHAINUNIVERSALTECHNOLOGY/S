@@ -1,0 +1,9 @@
+[package]
+name = "s_fast"
+version = "0.1.0"
+edition = "2021"
+description = "Native speed helpers for S Language (polyglot core)"
+
+[[bin]]
+name = "s_fast"
+path = "src/main.rs"

@@ -1,0 +1,34 @@
+# PROJECT S — ابتدا سے ریلیز تک تعمیر کا نقشہ
+
+## اس پیکج کی نوعیت
+یہ صرف تحریری implementation blueprint ہے۔ اس میں compiler/interpreter کا executable source، پرانے binaries، پرانا test suite یا runnable project شامل نہیں۔ پچھلی گفتگو کے فیصلوں کو اکٹھا، درست اور منظم کرکے یہ منصوبہ بنایا گیا ہے۔ اصل گم شدہ فائلیں recover ہونے کا دعویٰ نہیں کیا جا رہا۔
+
+ماضی میں بتائے گئے 127 tests ایک سابقہ execution کی رپورٹ تھے؛ وہ اس ZIP کے tests نہیں۔ اس ZIP کی جانچ صرف documentation کی موجودگی، integrity اور packaging کی ہے۔
+
+## وژن
+S = Simple, Safe, Supreme ایک design aspiration ہے۔ ابتدائی مقصد واضح errors، قابلِ فہم syntax اور چھوٹی مگر قابلِ اعتماد toolchain ہے۔ Kotlin سے تیز، zero crashes، یا مکمل memory safety ثابت شدہ نتائج نہیں۔
+
+## پڑھنے کی ترتیب
+01: بنیادی فیصلے اور نام
+02: syntax اور grammar
+03: types اور language semantics
+04: compiler/interpreter architecture
+05: multi-file modules اور project structure
+06: standard library، collections اور errors
+07: commands اور developer tools
+08: محفوظ implementation milestones
+09: testing اور security
+10: Android، AI اور دوسرے backends
+11: backup، recovery اور reproducible builds
+12: release checklist اور acceptance criteria
+
+## پہلے کیا بنانا ہے؟
+سب سے پہلے durable repository، source registry اور test runner بنائیں۔ پھر چھوٹی vertical slice مکمل کریں: .s source سے lexer، parser، semantic check، interpreter اور CLI تک۔ ہر feature ایک ہی authoritative build میں شامل ہو، الگ demo کو مکمل integration نہ کہیں۔
+
+## status کی چار الگ حالتیں
+Designed: صرف specification موجود ہے۔
+Implemented: source موجود ہے، مگر verification نامکمل ہو سکتی ہے۔
+Verified: نامزد tests اسی commit/build پر پاس ہوئے ہیں۔
+Released: package، documentation اور installation clean environment میں verify ہو چکے ہیں۔
+
+اس پیکج کے تمام language features منصوبے کے حصے ہیں؛ اس document سے ان کا implemented ہونا ثابت نہیں ہوتا۔

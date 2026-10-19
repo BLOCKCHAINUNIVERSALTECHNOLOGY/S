@@ -1,0 +1,11 @@
+# Week 3 COMPLETE — V2.5.1
+
+- [x] require()
+- [x] SVM ternary
+- [x] Checker: unwrap(none/err) error
+- [x] LSP capabilities doc
+- [x] 110+ tests
+- [~] SVM slice partial (object only; full slice on interpreter)
+
+## Week 4 next
+Harden, samples pack, V3.0 freeze

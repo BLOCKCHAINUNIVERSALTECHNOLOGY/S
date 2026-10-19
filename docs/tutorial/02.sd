@@ -1,0 +1,5 @@
+# Lesson 2 — Functions
+
+```
+fn add(a: int, b: int): int { ret a + b }\nprint add(2, 3)
+```

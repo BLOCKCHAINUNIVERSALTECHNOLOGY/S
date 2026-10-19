@@ -1,0 +1,31 @@
+# S Language — 30 Day Completion Plan
+
+Goal: usable, strong, daily-driver for S apps offline.
+Not "world's only unbreakable crypto" — strongest *practical* own stack.
+
+## Week 1 — Language complete feel
+- Day 1–2: JSON + HTTP in Slib (real file/net basics)
+- Day 3–4: Type checker expansion (int/str/bool/opt)
+- Day 5–7: 100+ tests, fix edge bugs, s new polish
+
+## Week 2 — Ship path
+- Day 8–10: s build → dist/ with .sbx + runner script
+- Day 11–12: S Shield v2 (done baseline) + multi-check
+- Day 13–14: Docs in .sd, examples gallery
+
+## Week 3 — Power + safety
+- Day 15–17: Deeper static check, freeze defaults option
+- Day 18–19: SVM parity gaps
+- Day 20–21: LSP polish already started
+
+## Week 4 — Harden + freeze release
+- Day 22–24: Anti-tamper fail-closed everywhere sbx runs
+- Day 25–26: Performance passes, doctor release gate
+- Day 27–28: Sample apps (shop, todo, calc)
+- Day 29–30: V3.0 freeze, zip, changelog
+
+## Protection truth (industry-aligned)
+- Integrity fail → app stops (our law)
+- Signature / hash checks on Android when APK path exists
+- Secrets on server
+- No malware against analysts' PCs

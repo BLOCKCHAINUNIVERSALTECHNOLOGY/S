@@ -1,0 +1,28 @@
+# S CI/CD — all platforms
+
+## Workflows
+
+### `.github/workflows/ci.yml`
+| Job | OS | What |
+|-----|-----|------|
+| test | Ubuntu, macOS, Windows | doctor, tests, smoke, html build |
+| native-linux | Ubuntu | cargo build s_fast + artifact |
+| native-macos | macOS | cargo build s_fast + artifact |
+| native-windows | Windows | cargo build s_fast.exe + artifact |
+| package | Ubuntu | portable zip artifact |
+| release | on tag `v*` | attach all artifacts to GitHub Release |
+
+### `.github/workflows/pages.yml`
+Deploys `website/` to GitHub Pages on main push.
+
+## Tag a release
+```bash
+git tag v3.8.1
+git push origin v3.8.1
+```
+
+## Local parity
+```bash
+python3 s test
+bash build.sh
+```

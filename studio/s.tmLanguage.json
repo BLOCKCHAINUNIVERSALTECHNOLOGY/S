@@ -1,0 +1,12 @@
+{
+  "name": "S Language",
+  "scopeName": "source.s",
+  "patterns": [
+    { "name": "comment.line.double-slash.s", "match": "//.*$" },
+    { "name": "keyword.control.s", "match": "\\b(let|var|fn|ret|if|else|loop|for|in|break|next|class|new|this|safe|rescue|use|assert|true|false|nil|and|or|not)\\b" },
+    { "name": "storage.type.s", "match": "\\b(int|dec|str|bool|list|map|opt)\\b" },
+    { "name": "string.quoted.double.s", "begin": "\"", "end": "\"", "patterns": [{ "name": "constant.character.escape.s", "match": "\\\\." }] },
+    { "name": "constant.numeric.s", "match": "\\b[0-9]+(\\.[0-9]+)?\\b" },
+    { "name": "entity.name.function.s", "match": "\\b(print|len|abs|min|max)\\b" }
+  ]
+}

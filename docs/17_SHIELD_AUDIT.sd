@@ -1,0 +1,12 @@
+# S Shield — self-audit checklist (not a formal third-party audit)
+
+- [ ] SBX2 magic + version checked
+- [ ] PBKDF2 iterations documented (200k)
+- [ ] Dual HMAC verified on open
+- [ ] Tamper / wrong key fail-closed
+- [ ] .sbx.map never shipped in release
+- [ ] S_SHIELD_KEY not in git
+- [ ] SECURITY.md claims match behavior
+- [ ] No "impossible RE" marketing
+
+Formal external audit: schedule when budget / threat model requires it.

@@ -1,0 +1,24 @@
+# S Polyglot Core Strategy
+
+Principle: S language surface stays one. Implementation may use many backends.
+
+## Layers
+1. **S surface** — .s syntax, stdlib names (stable)
+2. **Host orchestration** — Python CLI today (flexible, fast to evolve)
+3. **Native engines** — Rust/Go/C for hot paths (speed, isolation)
+4. **Future** — optional full VM in Rust; serve in Go; mobile NDK C++
+
+## Rules
+- User always writes **S**, not Python/Rust
+- Native helpers are optional accelerators (`S_NATIVE=1` or auto-detect)
+- If native missing, pure host path still works
+- Tests must pass without native installed
+
+## Current
+- `native/s_fast` (Rust): html_escape, version
+- Wire: interpreter may call s_fast when binary on PATH
+
+## Next candidates
+- Go: `s serve` high-concurrency static+API
+- Rust: SVM core rewrite subset
+- C: Android NDK bridge

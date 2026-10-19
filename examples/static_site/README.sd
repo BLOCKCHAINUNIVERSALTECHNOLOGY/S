@@ -1,0 +1,6 @@
+# Static site example (W-WEB-1)
+
+```bash
+python3 s html build examples/static_site/site.s --out=examples/static_site/out
+# open examples/static_site/out/index.html
+```

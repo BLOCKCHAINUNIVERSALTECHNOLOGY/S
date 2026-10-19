@@ -1,0 +1,11 @@
+# S Performance — limits (honest)
+
+- Default engine is an **interpreter** on Python host.
+- SVM is a bytecode path for many constructs; not full native speed.
+- Suitable for: scripts, tools, learning, small apps, sealed packs.
+- Not suitable yet for: heavy CPU loops, games at 60fps, large server load without host optimization.
+- Recursion depth is capped (interpreter MAX_RECURSION).
+- HTTP calls are blocking with timeout.
+- Prefer algorithms O(n log n) or better on large lists; no magic.
+
+Measure with your workloads before promising latency.

@@ -1,0 +1,7 @@
+# S Project Manifest — project.se (S symbol)
+name: project-s
+version: 1.9.0
+entry: examples/hello.s
+description: Simple Safe Supreme
+# Phase B2 — set true to auto-freeze let lists
+strict_let_collections: false

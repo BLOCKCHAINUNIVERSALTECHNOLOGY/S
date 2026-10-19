@@ -1,0 +1,5 @@
+# Lesson 1 — Run a program
+
+```
+python3 s run examples/hello.s
+```

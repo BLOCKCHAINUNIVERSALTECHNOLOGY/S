@@ -1,0 +1,16 @@
+# Week 1 COMPLETE — V2.3.2
+
+## Exit criteria
+- [x] JSON + HTTP builtins
+- [x] s build
+- [x] calc + todo samples
+- [x] when expressions
+- [x] s new polished
+- [x] ~100 tests green
+- [x] doctor healthy
+
+## Week 2 next
+- Ship path polish
+- More stdlib (time, crypto hash)
+- Docs gallery
+- Performance pass on SVM hot path

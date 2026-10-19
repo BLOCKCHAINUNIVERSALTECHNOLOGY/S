@@ -1,0 +1,42 @@
+# 04 — compiler frontend، runtime اور source architecture
+
+## authoritative project tree
+bootstrap: s، s.cmd
+src/frontend: source.sy، tokens.sy، lexer.sy، parser.sy، ast.sy
+src/semantic: scopes.sy، types.sy، checker.sy، flow.sy
+src/runtime: values.sy، env.sy، interpreter.sy، errors.sy، budget.sy
+src/modules: loader.sy، resolver.sy
+src/library: core.sy، collections.sy، text.sy، math.sy
+src/cli: main.sy، commands.sy، diagnostics.sy
+internal-tests: *.sy
+examples: *.s
+spec/docs: *.sd
+user test fixtures: *.sxs
+project/release metadata: approved *.se schemas
+
+Directory separation ایک design target ہے؛ پہلی recovery baseline ایک self-contained spark.sy ہو سکتی ہے۔ Split تب کریں جب equivalent regression suite دونوں layouts پر پاس ہو۔ .sy loader paths explicit ہوں اور imports current working directory پر depend نہ کریں۔
+
+## pipeline
+Source manager -> Lexer -> Token stream -> Parser -> AST -> Name resolution -> Type checking -> Flow checking -> checked AST -> interpreter۔ Native/Kotlin emission checked AST/IR کے بعد الگ backend ہو۔ CLI، tests اور playground ایک ہی frontend استعمال کریں، الگ regex زبانیں نہ بنائیں۔
+
+## source manager
+ہر file کا canonical ID، original UTF-8 text اور line-start table رکھیں۔ Diagnostics میں file/start/end spans؛ runtime call frames میں caller/callee spans۔ Imported source کو blind string concatenation سے اصل positions نہ گنوائیں؛ module ASTs میں source IDs محفوظ رہیں۔
+
+## AST nodes
+Program، Use، Function، Parameter، TypeRef، Declare، Assign، If، Loop، For، Break، Next، Return، ExprStmt، Literal، Name، Unary، Binary، Call، Index، List، Range۔ بعد میں Class، Construct، Member، Safe، Rescue اور Optional nodes۔
+ہر node کا span ہو؛ count کو marketing milestone نہ بنائیں۔ AST کا stable JSON schema internal tools کے لیے versioned ہو۔
+
+## parser
+Recursive descent statements؛ precedence-layered یا Pratt expressions میں سے ایک consistent technique۔ peek/advance/match/expect helpers؛ 'return no progress' cases پر guard۔ Error recovery میں statement boundary تلاش کریں، enclosing '}' محفوظ رکھیں اور ہر iteration پر token progress لازم ہو۔
+Malformed source پر host traceback کے بجائے diagnostic؛ valid source پر AST deterministic ہو۔ Multiple errors مفید حد تک collect کریں، cascades اور unlimited error lists نہ بنائیں۔
+
+## semantic checker
+Scope stack، symbol kind/mutability/type، builtin signatures، function signatures اور loop/function context الگ data structures میں۔ Unknown symbol کے بعد ErrorType استعمال کریں تاکہ duplicate cascades کم ہوں۔ Call arity، generics، return paths، assignability اور imports enforce ہوں۔
+Checker کبھی user program execute نہ کرے۔ مثال: static error کے بعد اس سے پہلے کا print بھی run نہ ہو۔
+
+## runtime
+Tagged values/host wrapper types، environment chains، explicit evaluation۔ S input پر Python eval/exec استعمال نہ کریں۔ Parser/checker کے بعد AST evaluator چلائیں۔ Return/break/next الگ internal control signals؛ S exceptions سے جدا۔
+Budget: every statement، expression، iteration اور expensive builtin operation charge ہو۔ صرف AST-step budget memory/time isolation نہیں؛ outer process limits الگ ہیں۔ Recursion depth، input bytes، tokens، imports اور diagnostics caps configurable ہوں۔
+
+## build consistency
+ایک compiler driver run/check/test کو serve کرے۔ Compile result میں checked AST، dependency graph، diagnostics اور spec version ہو۔ Script mode اور module mode کے فرق explicit ہوں۔ Stable entry point پہلے script mode؛ future main convention backward compatibility کے ساتھ آئے۔

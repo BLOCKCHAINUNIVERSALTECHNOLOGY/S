@@ -1,0 +1,5 @@
+# S project identity
+name: _smoke_app
+version: 0.1.0
+entry: main.s
+strict_let_collections: false

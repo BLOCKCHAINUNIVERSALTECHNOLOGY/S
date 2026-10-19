@@ -1,0 +1,155 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    name: Test (${{ matrix.os }} / Py${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.10", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Doctor
+        run: python s doctor
+        shell: bash
+
+      - name: Test suite
+        run: python s test
+        shell: bash
+
+      - name: Smoke new + run + check
+        run: |
+          python s new _ci_app
+          python s run _ci_app/main.s
+          python s check _ci_app/main.s
+        shell: bash
+
+      - name: HTML static build
+        run: python s html build examples/static_site/site.s --out=_ci_site
+        shell: bash
+
+  native-linux:
+    name: Native Rust (Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - name: Build s_fast
+        run: cargo build --release
+        working-directory: native/s_fast
+      - name: Smoke s_fast
+        run: ./native/s_fast/target/release/s_fast version
+      - name: Upload s_fast linux
+        uses: actions/upload-artifact@v4
+        with:
+          name: s_fast-linux-x86_64
+          path: native/s_fast/target/release/s_fast
+
+  native-macos:
+    name: Native Rust (macOS)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Build s_fast
+        run: cargo build --release
+        working-directory: native/s_fast
+      - name: Smoke
+        run: ./native/s_fast/target/release/s_fast version
+      - uses: actions/upload-artifact@v4
+        with:
+          name: s_fast-macos
+          path: native/s_fast/target/release/s_fast
+
+  native-windows:
+    name: Native Rust (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Build s_fast
+        run: cargo build --release
+        working-directory: native/s_fast
+      - name: Smoke
+        run: ./native/s_fast/target/release/s_fast.exe version
+        shell: bash
+      - uses: actions/upload-artifact@v4
+        with:
+          name: s_fast-windows
+          path: native/s_fast/target/release/s_fast.exe
+
+  package:
+    name: Portable packages
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build portable zip
+        run: |
+          mkdir -p dist/platforms
+          python - <<'PY'
+          import zipfile
+          from pathlib import Path
+          root = Path(".")
+          out = Path("dist/platforms/s-portable.zip")
+          out.parent.mkdir(parents=True, exist_ok=True)
+          include = ["s", "src", "LICENSE", "README.md", "VERSION", "install.sh", "examples"]
+          with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
+              for item in include:
+                  p = root / item
+                  if p.is_file():
+                      z.write(p, item)
+                  elif p.is_dir():
+                      for f in p.rglob("*"):
+                          if "__pycache__" in f.parts or f.suffix == ".pyc":
+                              continue
+                          if f.is_file():
+                              z.write(f, f.as_posix())
+          print("wrote", out, out.stat().st_size)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: s-portable
+          path: dist/platforms/s-portable.zip
+
+  release:
+    name: Release assets
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [test, native-linux, native-macos, native-windows, package]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/s-portable/**
+            artifacts/s_fast-linux-x86_64/**
+            artifacts/s_fast-macos/**
+            artifacts/s_fast-windows/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

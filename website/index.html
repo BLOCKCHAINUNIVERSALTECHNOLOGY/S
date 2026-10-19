@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>S Language — Simple · Safe · Supreme</title>
+  <style>
+    :root { --bg:#0b0f14; --fg:#e8eef7; --accent:#3dffb5; --muted:#8b9bb4; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, sans-serif; background:var(--bg); color:var(--fg); line-height:1.55; }
+    main { max-width: 720px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+    h1 { font-size: 2rem; letter-spacing: -0.02em; }
+    .tag { color: var(--accent); font-weight: 600; }
+    a { color: var(--accent); }
+    pre, code { background: #151b24; border-radius: 8px; }
+    pre { padding: 1rem; overflow-x: auto; }
+    code { padding: 0.1em 0.35em; }
+    pre code { padding: 0; }
+    .card { border: 1px solid #243044; border-radius: 12px; padding: 1rem 1.2rem; margin: 1rem 0; }
+    footer { color: var(--muted); font-size: 0.9rem; margin-top: 3rem; }
+  </style>
+</head>
+<body>
+<main>
+  <p class="tag">S Language v3.3 · Offline-first</p>
+  <h1>Simple · Safe · Supreme</h1>
+  <p>One engine. One CLI. Seal and ship with <code>.sbx</code>.</p>
+
+  <div class="card">
+    <strong>Install</strong>
+    <pre><code>chmod +x install.sh && ./install.sh
+export PATH="$HOME/.local/bin:$PATH"
+s version</code></pre>
+  </div>
+
+  <div class="card">
+    <strong>Hello</strong>
+    <pre><code>s new myapp
+s run myapp/main.s
+s check myapp/main.s
+s release myapp --key=dev</code></pre>
+  </div>
+
+  <h2>Learn</h2>
+  <ul>
+    <li><a href="tutorial.html">Tutorial (lessons 1–6)</a></li>
+    <li><a href="compare.html">S vs Kotlin</a></li>
+    <li><a href="https://github.com">Source / GitHub</a> (add your repo URL)</li>
+  </ul>
+
+  <h2>Docs in repo</h2>
+  <p><code>docs/</code> · LICENSE MIT · SECURITY.md · CONTRIBUTING.md</p>
+
+  <footer>S is free software under the MIT License.</footer>
+</main>
+</body>
+</html>

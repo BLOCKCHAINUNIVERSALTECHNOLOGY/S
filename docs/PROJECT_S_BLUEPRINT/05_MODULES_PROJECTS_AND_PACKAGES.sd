@@ -1,0 +1,31 @@
+# 05 — حقیقی imports، project model اور packages
+
+## project.se schema 1
+Fields: schema integer 1؛ name lowercase project ID؛ version X.Y.Z؛ entry relative .s path۔ Unknown keys reject یا واضح schema-version migration دیں۔ Credentials configuration میں نہ رکھیں۔
+
+## use resolution
+'use lib.stats' -> configured project root/lib/stats.s۔ Entry directory default root ہو سکتا ہے، مگر 's run src/main.s --root .' سے explicit root دیا جا سکے۔ Project-based run میں manifest root use کریں؛ working directory کے اتفاق پر depend نہ کریں۔
+Paths identifier segments سے بنیں؛ absolute path، '..'، drive prefix اور backslash escape منع۔ Canonical resolve کے بعد root containment check کریں، symlink escapes بھی reject ہوں۔ یہ checks TOCTOU یا hostile filesystem کے خلاف مکمل sandbox نہیں۔
+
+## loader algorithm
+1. Entry root کے اندر resolve کریں۔
+2. File byte limit دیکھیں، UTF-8 decode کریں، parse کریں۔
+3. DFS active stack circular imports detect کرے۔
+4. Imported modules میں صرف function declarations/use baseline میں allow ہوں؛ top-level effects/global variables reject ہوں۔
+5. Dependencies پہلے load ہوں؛ canonical file identity سے duplicates suppress ہوں۔
+6. AST source IDs محفوظ رکھ کر modules combine ہوں۔
+7. Checker duplicate exported names اور unresolved calls check کرے۔
+8. ایک error بھی ہو تو execution نہ ہو۔
+
+Namespace baseline flat ہے۔ 'use lib.stats' کا یہ مطلب نہیں کہ 'stats.sum()' implement ہو گیا۔ Aliases/namespaces آئیں تو export/import model، private names اور conflict resolution پہلے specify کریں۔
+
+## limits
+Default 128 modules، 64 import depth، 1 MiB aggregate source ایک reference starting policy ہو سکتی ہے؛ realistic projects پر tune کریں۔ Limits diagnostic میں واضح ہوں، خاموش truncation نہ ہو۔
+
+## user tests اور modules
+.sxs inline-source test پہلے pure snippet ہے۔ Real module tests کے لیے schema 2 میں entry file/root fixture support الگ add کریں۔ Test fixture root کسی arbitrary filesystem path کو access نہ دے۔ schema 1 پر imports بلا تحقیق enable نہ کریں۔
+
+## package manager — بعد کا مرحلہ
+spack install/init/publish کے formats، registry trust، checksums، dependency constraints، lockfile اور offline cache پہلے define ہوں۔ Lock file .sj generated deterministic data ہو؛ user edit نہ کرے تو بہتر۔
+.sa archive میں manifest، source، integrity metadata اور license ہو۔ Extraction سے پہلے path traversal، absolute paths، symlinks، oversized expansion اور duplicate entries reject ہوں۔ Install scripts baseline میں disabled ہوں۔
+Package name/version alone supply-chain trust نہیں۔ Provenance/signing future design ہو؛ 'safe packages' کا بے ثبوت دعویٰ نہ کریں۔

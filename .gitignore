@@ -1,0 +1,22 @@
+__pycache__/
+*.pyc
+*.pyo
+.Python
+.env
+.env.*
+*.key
+*.pem
+secrets/
+.s_cache/
+dist/
+*.sbx
+.idea/
+.vscode/
+*.log
+.DS_Store
+node_modules/
+
+# Generated native/build artifacts
+native/s_fast/target/
+bin/s_fast
+native/s_serve/s_serve

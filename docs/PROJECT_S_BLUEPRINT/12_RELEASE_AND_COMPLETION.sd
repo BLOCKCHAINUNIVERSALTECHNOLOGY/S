@@ -1,0 +1,51 @@
+# 12 — completion checklist اور definition of done
+
+## ہر feature کے لیے لازمی چیزیں
+[ ] Specification: syntax/type/runtime/error behaviour واضح۔
+[ ] Implementation authoritative tree میں موجود۔
+[ ] Positive، negative اور boundary tests۔
+[ ] Existing regression suite current source پر pass۔
+[ ] CLI/backend/module integration جہاں متعلق ہو۔
+[ ] User docs/example updated۔
+[ ] Limitations اور unsupported forms clear۔
+[ ] Backup restore verified۔
+
+## Core alpha release
+[ ] Documented subset اور grammar برابر۔
+[ ] Source-positioned errors، no execution before static failures۔
+[ ] Functions/control flow/collections/modules in one verified build۔
+[ ] Actual s launcher subprocess tests۔
+[ ] Test schemas اور extension registry consistent۔
+[ ] Resource limits documented؛ no sandbox exaggeration۔
+[ ] Clean directory installation/run proof۔
+[ ] Known issues، license، version اور source checksums۔
+
+## Stable language release
+[ ] Compatibility/versioning policy۔
+[ ] Standard library contracts اور error taxonomy۔
+[ ] Optional/OOP/error handling implemented یا explicitly outside v1 scope۔
+[ ] Fuzz/regression/security review completed to defined scope۔
+[ ] Supported OS/backend matrix واقعی test ہوئی ہو۔
+[ ] Reproducible build/release instructions اور durable source tag۔
+
+## Android/AI release اضافی gates
+[ ] Real target APK build/install/run evidence۔
+[ ] Permissions، lifecycle، privacy اور signing procedures۔
+[ ] Real AI provider/on-device backend integration، failures/cancellation/cost tests۔
+[ ] 'Built-in' functionality اور external dependencies کی honest list۔
+
+## Final package structure
+Implementation .sy یا future genuine .s self-hosted source؛ source tests/examples؛ docs .sd؛ project config .se؛ test cases .sxs؛ approved OS launcher/packaging files؛ build/test commands؛ license؛ changelog؛ test results؛ integrity index۔
+Native binaries/Android artifacts صرف successfully built targets کے لیے شامل ہوں۔ Generated files کی provenance اور platform/architecture label لازم ہے۔
+
+## User progress report template
+Build ID/spec version:
+New implemented features:
+Integrated verification command/result:
+Skipped/blocked items and why:
+Supported targets:
+Backup location and restore status:
+No production/speed/safety claim beyond evidence.
+
+## آخری بات
+'پورا project' تبھی کہیں جب اس agreed scope کی تمام gates پوری ہوں۔ Roadmap میں تمام future ecosystem کا نام ہونا مکمل implementation نہیں۔ ایک مضبوط core alpha کو ایمانداری سے release کرنا، نامکمل AI/Android/native ecosystem کو complete کہنے سے بہتر ہے۔

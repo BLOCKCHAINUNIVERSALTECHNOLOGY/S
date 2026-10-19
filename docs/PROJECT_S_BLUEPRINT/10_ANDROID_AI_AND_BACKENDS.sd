@@ -1,0 +1,30 @@
+# 10 — Android، AI، native/web اور self-hosting
+
+## SBridge + Kotlin/JVM strategy
+پہلے typed checked IR بنائیں۔ Kotlin emitter identifiers escape کرے، source maps/debug metadata دے، builtin/runtime calls explicit library layer کو map کرے۔ S numeric/optional/collection semantics Kotlin میں اتفاقاً مختلف نہ ہو جائیں؛ boxing/overflow/conversion ADRs ضروری ہیں۔
+Generated Kotlin -> supported Android build toolchain -> debug APK -> emulator/device test۔ Host پر source generate ہونا APK build کا ثبوت نہیں۔ SDK/JDK/Gradle versions pin کریں، signing keys محفوظ local/CI secret store میں ہوں۔ Build logs میں tokens/secrets نہ آئیں۔
+
+## SDX stages
+1. Minimal app lifecycle اور text/button screen۔
+2. Navigation/state management۔
+3. Storage/database۔
+4. Notifications اور runtime permission handling۔
+5. Camera/GPS/sensors with lifecycle cancellation۔
+Declarative .su/.sx syntax، UI-thread rules، resources .sr، accessibility، localization اور configuration changes define کریں۔ 'ایک line camera' کے پیچھے permission denial/OS lifecycle پھر بھی handle کرنا پڑتا ہے۔
+Exit: device/emulator پر actual sample APK launch، click، navigation اور permission-denial tests pass۔
+
+## SAI architecture
+Provider-neutral interfaces: chat، generation، vision، voice اور optional learning subsystem۔ API-based model access، on-device inference اور model training تین مختلف capabilities ہیں۔ 'Built-in AI' کا مطلب baseline میں bundled integration API ہو، compiler کے اندر model لازماً embed نہیں۔
+SAI کو core grammar special case نہ بنائیں؛ library/module binding سے expose کریں۔ Standardized request/response، streaming، cancellation، timeout، retry/backoff، provider errors، cost limits اور offline behaviour define کریں۔
+Keys environment/secure store سے، source/project.se میں نہیں۔ User consent، data retention، image/audio privacy اور provider policies واضح ہوں۔ Prompt injection سے external side effects الگ approval boundary کے بغیر نہ ہوں۔
+Mocks unit tests کے لیے؛ real provider test explicit credentials/network/cost approval کے ساتھ۔ Mock response کو real AI integration نہ کہیں۔
+
+## SVM/Storm اور native
+Custom VM ایک الگ substantial project ہے۔ Bytecode format، verifier، GC/ownership model، FFI، scheduler، debugger اور portability مانگتا ہے۔ پہلے reference semantics اور IR مستحکم کریں۔ Native target کے لیے existing backend infrastructure vs custom VM کا measured evaluation کریں۔
+Memory safety design کے بغیر raw pointers/FFI کو safe کہنا غلط ہے۔ VM prototype + benchmark != production runtime۔
+
+## Web/playground
+WASM-compatible engine یا browser-specific runtime strategy منتخب کریں۔ Files/network permissions، output/step/memory caps، UI responsiveness اور worker isolation test ہوں۔ Browser کو supported declared subset دکھائیں۔ Python desktop CLI کا موجود ہونا browser support نہیں۔
+
+## self-hosting
+جب S میں required data structures، modules، IO، errors اور compiler-writing facilities کافی ہوں تب frontend S میں منتقل کریں۔ Bootstrap chain: trusted stage0 -> stage1 -> stage2؛ outputs/behaviour reproducibility compare کریں۔ .sy Python implementation کو صرف rename کرکے self-hosting نہ کہیں۔

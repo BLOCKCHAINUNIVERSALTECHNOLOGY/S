@@ -1,0 +1,17 @@
+# S Shield — Own Rules (V2.1.0)
+
+## Our law
+1. Release ships .sbx only — never plain .s
+2. Encryption + HMAC are OUR code (src/shield.py)
+3. Symbol names stripped to S_0, S_1, ...
+4. Wrong key or tamper → integrity fail, no run
+5. .sbx.map is developer-only, never ship
+
+## Commands
+  s protect app.s --key=YOUR_SECRET
+  s run app.sbx          # needs S_SHIELD_KEY
+  s unbox app.sbx        # recover source (dev)
+
+## Reality
+Hard for casual RE. Not mathematical impossibility.
+Keep real secrets on server.

@@ -1,0 +1,34 @@
+# 06 — Slib، collections، OOP اور runtime contracts
+
+## پہلے قابلِ عمل library
+core: print، len، type، assert۔
+collections: append، setAt، slice، mapOf، keys، values، hasKey، getKey۔
+text: split/join/trim/contains/replace، Unicode policy کے ساتھ۔
+math: abs/min/max/round اور explicit numeric conversions۔
+time: monotonic duration اور wall-clock timestamps کو الگ values بنائیں۔
+io/net بعد میں capability/permission boundaries کے ساتھ آئیں۔
+
+ہر builtin کی registry entry: name، parameter types/arity، result type، static validator، runtime function، effects، budget cost، error categories اور docs example۔ Checker/runtime میں الگ الگ ad hoc lists نہ رکھیں۔
+
+## functional collection contracts
+append(list<T>, T) -> list<T>: original unchanged؛ empty list میں T infer ہو۔
+setAt(list<T>, int, T) -> list<T>: negative/out-of-bounds error، new outer list۔
+slice(list<T>, int, int) -> list<T>: 0 <= start <= end <= len؛ end exclusive۔
+mapOf(list<str>, list<T>) -> map<str,T>: lengths equal؛ duplicate keys error۔
+keys(map<str,T>) -> list<str>: defined insertion order۔
+values(map<str,T>) -> list<T>: keys کے اسی order میں۔
+hasKey(map<str,T>, str) -> bool۔
+getKey(map<str,T>, str) -> T: missing-key error۔ بعد میں optional get API الگ نام سے۔
+
+len str/list/map/range پر؛ type consistent stable label دے؛ print nested strings quote کرے اور booleans true/false ہوں۔ Cyclic values جب ممکن ہوں تو display recursion guard لازم ہے۔
+
+## class implementation sequence
+پہلے ClassSymbol، field definitions، method signatures، constructor initializer، instance value اور member lookup بنائیں۔ پھر new expression اور this resolution۔ Inheritance، overloading، reflection اور operator magic پہلے version سے خارج رکھیں۔
+Field initializer evaluation order declaration order ہو؛ all required fields initialize ہونے سے پہلے instance باہر نہ نکلے۔ Class method کو implicit receiver ملے، user-visible signature میں receiver double count نہ ہو۔ Mutability اور visibility rules field-level پر enforce ہوں۔
+Object identity اور structural equality الگ specify ہوں۔ Constructor failure partial object expose نہ کرے۔ Constructor/method diagnostics میں class اور member name ہو۔
+
+## errors implementation sequence
+سب سے پہلے runtime errors structured کریں، پھر safe/rescue syntax enable کریں۔ Rescue بغیر handler کے failure silently suppress نہ کرے۔ Nested rescue، return-through-rescue، loop-control propagation اور user error-vs-internal bug tests لازم ہیں۔
+
+## optional implementation sequence
+Type constructor -> tagged values -> constructors/predicates/default operations -> static assignment rules -> tests -> docs۔ Compiler support سے پہلے nil کو عام Python None بناکر ہر type میں allow نہ کریں۔ unit اور nil ایک concept نہیں ہیں۔

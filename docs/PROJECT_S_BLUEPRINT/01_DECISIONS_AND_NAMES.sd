@@ -1,0 +1,30 @@
+# 01 — بنیادی فیصلے، naming اور file registry
+
+## مصنوعات کے نام
+Language S؛ compiler SC/Spark؛ ممکنہ مستقبل runtime SVM/Storm؛ Android adapter SBridge؛ standard library Slib؛ AI integration SAI؛ Android UI/device toolkit SDX؛ package manager spack؛ package registry S Hub؛ build tool sbuild/Forge؛ editor S Studio؛ playground S Play؛ formatter sfmt؛ lint slint؛ tests stest؛ docs S Docs؛ mascot Sia۔
+یہ نام project-local proposals ہیں، trademark یا عالمی uniqueness کی تصدیق نہیں۔ الگ VM کو پہلا milestone نہ بنائیں۔
+
+## extensions — حتمی مقامی convention
+.s: حقیقی S source اور user programs۔
+.sy: ابتدائی Python-hosted implementation اور internal verification harness۔ اندر Python ہو تو اسے S source نہ کہیں۔
+.sd: UTF-8 documentation؛ Markdown-like متن رکھا جا سکتا ہے۔
+.sxs: user-facing declarative test case؛ JSON format، Python unittest code نہیں۔
+.se: project configuration؛ JSON format۔ project.se اور release metadata کے schemas مختلف اور واضح ہوں۔
+.su: مستقبل screen definitions۔
+.sx: مستقبل reusable UI definitions۔
+.sn: مستقبل native bridge declarations۔
+.snx: generated interop output۔
+.sr: resource manifest۔
+.sj: مستقبل dependency lock data۔
+.sa: مستقبل package archive، جب format اور verification تعریف ہو جائیں۔
+
+.sy کا پرانا 'interfaces' والا تجویز کردہ استعمال منسوخ ہے، کیونکہ صارف نے اسے implementation کے لیے منتخب کیا۔ جب interfaces آئیں تو .s میں explicit interface construct یا الگ approved format متعین کریں۔ ناموں میں uppercase/lowercase کا فرق file type کے لیے استعمال نہ کریں۔
+
+## bootstrap files مستثنیٰ ہیں
+Unix launcher s، Windows wrapper s.cmd اور packaging metadata کو OS/tool requirements کے مطابق نام دیں۔ ہر ecosystem-required فائل کا نام زبردستی بدلنے سے tooling خراب ہو سکتی ہے۔ user-facing command s ہو؛ اندر Python dependency اس وقت تک برقرار رہے گی جب تک الگ backend/distribution نہ بنے۔
+
+## ابتدائی architecture decision
+پہلا authoritative backend tree-walk reference interpreter ہو۔ Spark کا frontend اس سے الگ رہے تاکہ بعد میں Kotlin/native/web code generation شامل ہو سکے۔ Python-hosted source کو .sy سے load کرنے کا explicit loader بنائیں؛ implicit Python imports اور test discovery پر انحصار نہ کریں۔
+
+## governance
+ہر اہم فیصلہ ADR نمبر کے ساتھ محفوظ کریں: syntax، numeric types، error policy، import order، collection mutability، backend strategy۔ spec میں incompatible تبدیلی آئے تو migration note اور version increment لازم ہوں۔

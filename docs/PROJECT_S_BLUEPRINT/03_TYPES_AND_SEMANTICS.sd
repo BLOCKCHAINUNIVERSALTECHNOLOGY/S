@@ -1,0 +1,33 @@
+# 03 — types، scopes، control flow اور safety
+
+## primitive model
+int: reference implementation میں arbitrary precision؛ native/backend compatibility کے لیے overflow policy الگ ADR میں طے کریں۔
+dec: baseline binary floating point؛ exact decimal finance type نہ کہیں۔ NaN/infinity اور serialization policy document کریں۔
+str: immutable Unicode text؛ indexing code point ہے یا byte، پوری toolchain میں ایک convention رکھیں؛ baseline code point۔
+bool: true/false؛ numeric implicit truthiness منع۔
+unit: no useful return value؛ storage اور collection element کے طور پر منع۔
+
+## numeric rules
+Implicit int-to-dec conversion baseline میں منع؛ explicit conversion APIs بعد میں۔ '/' ہمیشہ dec؛ '%' کی negative-number policy spec/test میں واضح ہو۔ divide by zero، invalid conversions اور indexing failures typed runtime errors ہوں۔
+
+## variables اور scope
+let binding دوبارہ assign نہیں ہو سکتی؛ var ہو سکتی ہے۔ var کی inferred/declared type assignment سے تبدیل نہ ہو۔ initializer name bind ہونے سے پہلے analyze کریں۔ ایک scope میں duplicate names error؛ child scope میں shadowing اجازت، builtin/function naming policy الگ enforce ہو۔
+Parameters immutable bindings ہوں۔ Functions کے parameter scope میں دوبارہ وہی declaration error۔ Loop iterator immutable اور ہر iteration کا fresh scope۔ Assignment outer mutable binding تلاش کر سکتی ہے۔ Function entry پر loop context reset ہو تاکہ caller کے loop کو break نہ کیا جا سکے۔
+
+## functions
+Initial subset top-level، typed parameters/return اور named calls ہے۔ Declaration-order lookup، self recursion supported۔ Forward references، mutual recursion، nested functions، closures اور function values کو پہلے version کا حصہ نہ کہیں۔ اگر بعد میں دو-pass symbol registration اختیار کریں تو semantic version/migration tests لازم ہیں۔
+Non-unit function کے تمام reachable paths return کریں۔ Conservative checker پہلے if/else دونوں branches کو دیکھے؛ loop کو خودبخود guaranteed return نہ سمجھے۔ Unreachable statements پر warning، checker کا crash نہیں۔ Bare ret صرف unit-return function میں۔
+
+## collections
+list<T> homogeneous؛ map<str,T> string keys اور typed values۔ Empty literals inference کے لیے context مانگیں؛ hidden 'any' نہ بنائیں۔ Nested empty collections کا type unification recursive ہو۔
+Initial operations functional ہیں: append/setAt/slice نئی outer collection دیں۔ Shallow sharing واضح کریں؛ deep immutability کا جھوٹا دعویٰ نہ ہو۔ جب mutation APIs آئیں تو let کا مطلب binding-only ہے یا deep immutability، ADR سے فیصلہ کریں۔
+List/string negative index reject؛ out-of-range runtime error۔ map duplicate keys reject؛ absent-key access error یا optional API، دونوں کو mix نہ کریں۔
+Ranges ascending، end-exclusive؛ descending start/end سے empty sequence؛ lazy iteration، giant eager list allocation نہیں۔
+
+## optionals — بعد کا مکمل implementation
+opt<T> = Present(T) یا Absent، نہ کہ ہر type کے اندر implicit nil۔ nil صرف opt<T> میں assign ہو۔ optional کو direct arithmetic/member access میں reject کریں۔ ابتدائی APIs some(value)، isSome(value)، valueOr(optional, default) ہوں؛ unsafe unwrap default API نہ بنائیں۔
+Optional narrowing کے لیے explicit syntax/construct الگ design کریں۔ postfix '?' تبھی شامل ہو جب enclosing function return type، propagation اور evaluation order مکمل define ہوں۔
+
+## errors
+SError hierarchy میں ParseError، TypeError، BoundsError، MissingKeyError، IOError، PermissionError، AIServiceError جیسی categories ہوں۔ Language error اور interpreter bug الگ report ہوں۔ safe/rescue صرف supported language errors catch کرے؛ process termination، out-of-memory یا internal bugs کو zero-crash guarantee کے طور پر swallow نہ کرے۔
+Rescue variable structured Error value ہو، message/code/source fields کے ساتھ۔ Break/next/ret control signals rescue کے ذریعے intercept نہ ہوں۔

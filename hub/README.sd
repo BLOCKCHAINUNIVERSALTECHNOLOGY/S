@@ -1,0 +1,9 @@
+# S Hub
+
+Local packages live under hub/packages.
+Remote registry (optional):
+
+  export S_HUB_URL=https://your-hub.example.com
+
+When S_HUB_URL is set, `s hub` may fetch index.json from that host.
+Until a public host exists, Hub is **local-first**.

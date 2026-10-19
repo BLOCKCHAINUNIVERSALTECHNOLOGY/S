@@ -1,0 +1,8 @@
+{
+  "app_name": "SApp",
+  "package": "com.slang.app",
+  "entry": "main.s",
+  "min_sdk": 24,
+  "target_sdk": 34,
+  "version": "1.2.0"
+}

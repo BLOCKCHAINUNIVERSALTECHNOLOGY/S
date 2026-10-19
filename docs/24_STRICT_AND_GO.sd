@@ -1,0 +1,8 @@
+# Strict types + Go serve (4.1.0)
+
+## Strict types
+  python3 s check file.s --strict
+
+## Go serve
+  cd native/s_serve && go build -o s_serve .
+  python3 s serve site_dir --go --port=8080

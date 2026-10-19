@@ -1,0 +1,3 @@
+# S vs Kotlin-style LOC Benchmarks
+
+Tasks implemented in pure .s. Kotlin column = typical idiomatic LOC estimate.

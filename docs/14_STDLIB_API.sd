@@ -1,0 +1,28 @@
+# S Standard Library API — FROZEN surface (3.4)
+
+These builtins are the public stdlib surface. Prefer stability.
+
+## Core I/O
+- print(...), input(), read_file(path), write_file(path, text)
+
+## Collections
+- len, push, pop, map, filter, each, sort, unique, reverse
+- keys, values, take, drop, find, zip, sum, any, all, contains
+
+## Strings
+- split, join, upper, lower, trim, replace, starts_with, ends_with, pad
+
+## Numbers
+- min, max, abs, floor, ceil, round, clamp
+
+## Safety
+- some, none, valueOr, ok, err, isOk, isErr, unwrap, require, freeze, assert
+
+## Data / net
+- json_parse, json_stringify, http_get, http_post
+
+## Time / hash
+- clock, now, hash(text [, algo])
+
+## Modules (Slib)
+- s.json, s.http, s.time, s.hash (thin wrappers)

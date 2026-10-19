@@ -1,0 +1,11 @@
+# S Versioning Policy (SemVer)
+
+Format: MAJOR.MINOR.PATCH
+
+- **MAJOR** — breaking language or CLI changes
+- **MINOR** — new features, backward compatible
+- **PATCH** — bugfixes, docs, packaging
+
+Pre-1.0 note: S is past 3.x product numbering for this line;
+treat 3.x as stable-enough API for the offline CLI surface.
+Announce breaks in CHANGELOG.md.

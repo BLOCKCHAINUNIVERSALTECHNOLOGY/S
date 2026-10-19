@@ -1,0 +1,18 @@
+# Week 4 + V3.0.0 FREEZE
+
+## Release
+- s release [dir] = test + check + build
+- examples/apps/* sample pack
+- Version 3.0.0
+
+## Promise at freeze
+- Offline usable core
+- 100+ tests green
+- Shield SBX2 ship path
+- LSP goto-def/rename
+- JSON/HTTP/hash/time stdlib surface
+
+## Not frozen as complete forever
+- Real APK needs device SDK (user machine)
+- Full static types (ongoing)
+- World-class concurrency (ongoing)
