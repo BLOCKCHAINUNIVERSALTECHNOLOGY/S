@@ -56,7 +56,7 @@ jobs:
       - name: Smoke s_fast
         run: ./native/s_fast/target/release/s_fast version
       - name: Upload s_fast linux
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: s_fast-linux-x86_64
           path: native/s_fast/target/release/s_fast
@@ -72,7 +72,7 @@ jobs:
         working-directory: native/s_fast
       - name: Smoke
         run: ./native/s_fast/target/release/s_fast version
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: s_fast-macos
           path: native/s_fast/target/release/s_fast
@@ -89,7 +89,7 @@ jobs:
       - name: Smoke
         run: ./native/s_fast/target/release/s_fast.exe version
         shell: bash
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: s_fast-windows
           path: native/s_fast/target/release/s_fast.exe
@@ -126,7 +126,7 @@ jobs:
                               z.write(f, f.as_posix())
           print("wrote", out, out.stat().st_size)
           PY
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: s-portable
           path: dist/platforms/s-portable.zip
