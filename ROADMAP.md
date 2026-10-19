@@ -1,7 +1,7 @@
 # S Roadmap — next 90 days
 
 ## Days 1–30
-- Public GitHub + tagged releases
+- Tagged releases and cross-platform install validation
 - Install polish on Windows/macOS/Linux
 - Tutorial expansion
 - Bugfix from early users
@@ -16,6 +16,6 @@
 - Performance pass (hot paths)
 - Optional native/faster experiments
 - Android scaffold validation on device (contributors)
-- Decide 4.0 scope from feedback
+- Decide 4.2 scope from user feedback
 
 Out of scope this quarter: replacing Kotlin for large production Android apps.

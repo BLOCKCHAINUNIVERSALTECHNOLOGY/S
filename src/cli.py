@@ -44,6 +44,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+def get_version():
+    """Read the package version from the single source of truth."""
+    ver_path = Path(__file__).resolve().parent.parent / "VERSION"
+    try:
+        return ver_path.read_text(encoding="utf-8").strip()
+    except OSError:
+        return "unknown"
+
 from src.lexer import Lexer, TokenKind
 from src.parser import parse_source
 from src.interpreter import Interpreter
@@ -219,7 +227,7 @@ def cmd_run(path: str):
 
 
 def cmd_repl():
-    print("S Language REPL v1.0.0 Supreme — type 'exit' or Ctrl-D to quit")
+    print(f"S Language REPL v{get_version()} Supreme — type 'exit' or Ctrl-D to quit")
     interp = Interpreter()
     while True:
         try:
@@ -242,18 +250,10 @@ def cmd_repl():
 
 def cmd_test():
     """Run the built-in test suite."""
-    test_dir = Path(__file__).parent.parent / "tests"
-    if not test_dir.exists():
-        print("No tests directory found.")
-        return
-
-    passed = 0
-    failed = 0
-    files = sorted(test_dir.glob("*.s")) + sorted(test_dir.glob("test_*.py"))
-
-    # Also run the simple assertion tests defined below
     from src import test_runner
     results = test_runner.run_all()
+    passed = 0
+    failed = 0
     for name, ok, msg in results:
         if ok:
             print(f"  PASS  {name}")
@@ -264,19 +264,20 @@ def cmd_test():
 
     print()
     print(f"Results: {passed} passed, {failed} failed")
-    if failed:
+    if not results or failed:
+        if not results:
+            print("No tests were discovered.")
         sys.exit(1)
 
 
 def cmd_doctor():
     """Basic toolchain health check."""
-    print("S Language Doctor — 4.1.0")
+    print(f"S Language Doctor — {get_version()}")
     print("=" * 40)
     checks = []
 
     # Version
-    ver_path = Path(__file__).parent.parent / "VERSION"
-    ver = ver_path.read_text().strip() if ver_path.exists() else "unknown"
+    ver = get_version()
     checks.append(("Version", ver, True))
 
     # Core modules importable
@@ -367,14 +368,12 @@ def cmd_doctor():
 
 
 def cmd_version():
-    ver_path = Path(__file__).parent.parent / "VERSION"
-    ver = ver_path.read_text().strip() if ver_path.exists() else "0.0.0"
-    print(f"S Language {ver}")
+    print(f"S Language {get_version()}")
 
 def cmd_lib():
     """List built-in Slib / SDX / SAI modules."""
     slib = Path(__file__).parent / "slib"
-    print("S Modules — Slib + SDX + SAI (4.1.0)")
+    print(f"S Modules — Slib + SDX + SAI ({get_version()})")
     print("=" * 50)
     if not slib.exists():
         print("  (no slib directory)")

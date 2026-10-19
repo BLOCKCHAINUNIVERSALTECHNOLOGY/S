@@ -571,4 +571,8 @@ def run_all():
         'print len(date_fmt("%Y"))',
         "4"))
 
+    # Keep focused Phase B tests in both `s test` and `s doctor`.
+    from src.test_phase_b import run_all as run_phase_b
+    tests.extend(run_phase_b())
+
     return tests

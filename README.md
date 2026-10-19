@@ -1,6 +1,6 @@
 # S — Simple · Safe · Supreme
 
-**Version 4.0.0 — Fully developed offline language**
+**Version 4.1.0 — Fully developed offline language**
 
 ```bash
 python3 s new myapp

@@ -134,7 +134,7 @@ jobs:
   release:
     name: Release assets
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [test, native-linux, native-macos, native-windows, package]
+    needs: [test, native-linux, native-macos, native-windows, native-go, package]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -153,3 +153,19 @@ jobs:
             artifacts/s_fast-windows/**
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  native-go:
+    name: Native Go (Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: native/s_serve/go.mod
+      - name: Test and compile s_serve
+        run: go test ./...
+        working-directory: native/s_serve
+      - name: Vet s_serve
+        run: go vet ./...
+        working-directory: native/s_serve

@@ -1,4 +1,6 @@
-# S Language v1.0.0 "Supreme" — Release Checklist
+# S Language v1.0.0 "Supreme" — Historical Release Checklist
+
+> Archived checklist for the original v1.0.0 milestone. The current source version is recorded in `VERSION`.
 
 ## Acceptance Criteria
 
