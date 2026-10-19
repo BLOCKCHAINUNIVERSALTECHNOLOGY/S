@@ -5,8 +5,12 @@ let var fn ret if elif else while for in loop break next
 class new this safe rescue print assert when enum
 defer async await spawn repeat as guard use
 
-## Types (annotations)
-int str bool dec list map opt — checked lightly by s check
+## Types and checking
+Basic annotations: `int`, `dec`, `str`, `bool`, `list`, `map`, `opt`, `result`, and user-defined class names.
+
+`s check <file>` checks known type annotations, assignments, user-function arguments and return values, numeric operators, map keys, and collection indexes. It also checks immutable bindings and reports source locations. `int` values may widen to `dec`; dynamic or unresolved values remain permissive.
+
+Use `s check <file> --strict` to also report unresolved names and unknown classes. Because the checker does not load imported modules, unresolved-name checks are deferred when the file has an unaliased `use` import. Generic/container element types and full cross-module type resolution are not supported yet.
 
 ## Operators
 + - * / % == != < > <= >= and or not

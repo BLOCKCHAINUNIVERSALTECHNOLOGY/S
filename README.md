@@ -18,6 +18,18 @@ Functions (defaults, recursion), classes, `while`/`for`/`repeat`/`loop`,
 `if/elif`, `when`, pipes `|>`, lambdas, `opt`/`guard`/`require`, async surface,
 modules, JSON/HTTP, HTML static sites, HTTP serve, sealed `.sbx` packs.
 
+### Static checks
+
+```bash
+python3 s check examples/full_demo.s
+python3 s check examples/full_demo.s --strict
+```
+
+The checker validates known annotations, assignments, user-function calls and
+returns, and common operator/index types. Strict mode also reports unresolved
+names where imports permit reliable resolution. See `docs/23_LANGUAGE_REF.sd`
+for supported rules and current limitations.
+
 ## Full demo
 ```bash
 python3 s run examples/full_demo.s

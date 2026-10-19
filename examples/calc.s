@@ -2,7 +2,7 @@
 fn add(a: int, b: int): int { ret a + b }
 fn sub(a: int, b: int): int { ret a - b }
 fn mul(a: int, b: int): int { ret a * b }
-fn div(a: int, b: int): int {
+fn div(a: int, b: int): dec {
   guard b != 0
   ret a / b
 }

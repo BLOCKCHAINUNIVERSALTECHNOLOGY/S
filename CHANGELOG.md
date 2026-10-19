@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+- Expanded `s check` into a scope-aware Basic type checker for annotated values, mutable assignments, user-function arguments/returns, numeric operators, map keys, and indexes.
+- Added strict unresolved-name checks, source-located diagnostics, and Phase B regression coverage; test suite now includes 140 checks.
+- Corrected the calculator example's division return annotation to `dec`.
+
 ## 4.1.0 — Current source package
 - CLI, Doctor, REPL, and module listing read the version from `VERSION`.
 - `s test` now runs the built-in suite and Phase B checks; failures return a non-zero exit code.
