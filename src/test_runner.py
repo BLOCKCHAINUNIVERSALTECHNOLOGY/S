@@ -4,6 +4,7 @@ from src.parser import parse_source
 from src.interpreter import Interpreter
 from src.errors import SError
 import io
+import os
 import sys
 
 
@@ -560,7 +561,7 @@ def run_all():
 
     tests.append(expect_output("path join",
         'print path_join("a", "b")',
-        "a/b"))
+        os.path.join("a", "b")))
     tests.append(expect_output("csv",
         'print csv_split("a,b,c")',
         "['a', 'b', 'c']"))
